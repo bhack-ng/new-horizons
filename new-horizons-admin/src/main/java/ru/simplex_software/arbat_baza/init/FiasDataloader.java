@@ -114,12 +114,12 @@ public class FiasDataloader {
                 LOG.info("start parsing unpacked database");
 
                 LOG.info("start AS_SOCRBASE parsing...");
-                    final URL url = new URL("http://www.simplex-software.ru/fias_xml/AS_SOCRBASE.XML");
+                    final URL url = new URL("https://bafybeiakz453fch32mszvi4kdept733twfvpwcnipusp2zvsb3qdtj5cpe.ipfs.dweb.link/AS_SOCRBASE_20210812_5cc661a9-fa39-480d-9410-b53559a063b8.XML");
                     socrIS = url.openStream();
                     parser.parse(socrIS, new SocrDefaultHandler());
                 LOG.info("AS_SOCRBASE parsed");
 
-                    final URL url2 = new URL("http://www.simplex-software.ru/fias_xml/AS_ADDROBJ.XML");
+                    final URL url2 = new URL("https://bafybeigywyekjw4j5boippeyilwutjd3fzekvzsy5z4mghbab5342de6vi.ipfs.dweb.link/AS_ADDROBJ_20210812_333a73d4-9057-4a75-aff7-3c82e7ec1ef2.XML");
                     addrObjIS= url2.openStream();
                     parser.parse(addrObjIS, new FullParser());
 

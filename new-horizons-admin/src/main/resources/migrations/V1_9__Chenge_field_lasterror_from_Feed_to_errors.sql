@@ -9,7 +9,6 @@ CREATE TABLE feed_errors
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE feed_errors
-  OWNER TO postgres;
+
 
 ALTER TABLE feed DROP COLUMN lasterror;

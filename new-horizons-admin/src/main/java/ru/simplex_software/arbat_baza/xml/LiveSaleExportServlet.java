@@ -86,18 +86,18 @@ public class LiveSaleExportServlet implements HttpRequestHandler {
         XMLOutputFactory output = XMLOutputFactory.newInstance();
         XMLStreamWriter xmlWriter = output.createXMLStreamWriter(ps, "UTF-8");
 
-        writeXml(xmlWriter,request);
+        writeXml(xmlWriter,request.getServletPath());
     }
 
     public void writeXml(PrintWriter pw,HttpServletRequest request) throws XMLStreamException {
 
         XMLOutputFactory output = XMLOutputFactory.newInstance();
         XMLStreamWriter xmlWriter = output.createXMLStreamWriter(pw);
-        writeXml(xmlWriter,request);
+        writeXml(xmlWriter,request.getServletPath());
 
     }
 
-    private void writeXml(XMLStreamWriter rawWriter,HttpServletRequest request) throws XMLStreamException {
+    public void writeXml(XMLStreamWriter rawWriter, String requestPath) throws XMLStreamException {
 
         PrettyPrintHandler handler = new PrettyPrintHandler(rawWriter);
 
@@ -109,10 +109,10 @@ public class LiveSaleExportServlet implements HttpRequestHandler {
 
         xmlWriter.writeStartDocument("UTF-8", "1.0");
 
-        if(request.getServletPath().equals("/site/flatSale.xml")){
+        if(requestPath.equals("/site/flatSale.xml")){
             xmlWriter.writeProcessingInstruction("xml-stylesheet","type=\"text/xsl\" href=\"../flatSale.xsl\"");
         }
-        if(request.getServletPath().equals("/site/liveSale.xml")){
+        if(requestPath.equals("/site/liveSale.xml")){
             xmlWriter.writeProcessingInstruction("xml-stylesheet","type=\"text/xsl\" href=\"../flatSaleList.xsl\"");
         }
 
