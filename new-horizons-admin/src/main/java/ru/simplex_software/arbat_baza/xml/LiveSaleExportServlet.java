@@ -44,7 +44,7 @@ public class LiveSaleExportServlet implements HttpRequestHandler {
     private LiveSaleRealtyDAO liveSaleRealtyDAO;
     @Resource
     private CianAdminAreaDAO cianAdminAreaDAO;
-    List<LiveSaleRealty> liveRealtyList;
+    public List<LiveSaleRealty> liveRealtyList;
 
     private ThreadLocal urlLocal = new ThreadLocal();
 
