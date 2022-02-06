@@ -254,11 +254,13 @@
 			<version>${org.springsecurity.version}</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1205-jdbc42</version>
+			<version>42.3.2</version>
 		</dependency>
+
 		<!--
 		jdbc driver for ms sql
 		http://jtds.sourceforge.net/
@@ -422,6 +424,12 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>2.1.1</version>
 				<configuration>
+					<webResources>
+						<resource>
+							<directory>src/profiles/${profile.selected}/META-INF</directory>
+							<targetPath>META-INF</targetPath>
+						</resource>
+					</webResources>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -430,6 +438,40 @@
 							<Implementation-Build>${buildNumber}</Implementation-Build>
 						</manifestEntries>
 					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.7.11</version>
+				<configuration>
+					<container>
+						<containerId>tomcat9x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.hostname>${cargo.remote.hostname}</cargo.hostname>
+							<cargo.protocol>https</cargo.protocol>
+							<cargo.servlet.port>443</cargo.servlet.port>
+							<cargo.remote.username>both</cargo.remote.username>
+							<cargo.remote.password>${cargo.remote.password}</cargo.remote.password>
+						</properties>
+					</configuration>
+					<deployer>
+						<type>remote</type>
+					</deployer>
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<type>war</type>
+							<properties>
+								<context>/</context>
+							</properties>
+						</deployable>
+					</deployables>
 				</configuration>
 			</plugin>
 
@@ -455,37 +497,6 @@
 			<build>
 				<finalName>root</finalName>
                 <plugins>
-                    <!-- Run with Jetty -->
-                    <plugin>
-                        <groupId>org.mortbay.jetty</groupId>
-                        <artifactId>maven-jetty-plugin</artifactId>
-                        <version>6.1.10</version>
-                        <configuration>
-                            <scanIntervalSeconds>5</scanIntervalSeconds>
-                            <stopKey>foo</stopKey>
-                            <stopPort>9999</stopPort>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start-jetty</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <scanIntervalSeconds>0</scanIntervalSeconds>
-                                    <daemon>true</daemon>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>stop-jetty</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>   
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
@@ -494,7 +505,9 @@
                             <contextFile>src/profiles/${profile.selected}/META-INF/context.xml</contextFile>
                         </configuration>
                     </plugin>
-                </plugins>
+
+
+				</plugins>
 
 			</build>
         </profile>
@@ -505,6 +518,7 @@
             </activation>
             <properties>
                 <profile.selected>testing</profile.selected>
+				<cargo.remote.hostname>bhack.simplex-software.ru</cargo.remote.hostname>
             </properties>
 			<build>
 				<plugins>
