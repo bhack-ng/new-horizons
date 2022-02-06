@@ -1,0 +1,1 @@
+ALTER TABLE realtyobject ADD COLUMN creationtime timestamp without time zone;

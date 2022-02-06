@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <window id="editFeedWin" title="Редактирование фида" border="normal"
+            mode="modal" closable="true" maximizable="true"  onCancel="editFeedWin.detach()" width="80%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.EditFeedVM')">
+
+    <listbox>
+        <listhead>
+            <listheader width="20%"/>
+            <listheader width="80%"/>
+        </listhead>
+        <listitem>
+            <listcell label="тип фида"/>
+            <listcell>
+                <combobox model="@load(vm.feedTypes)" selectedItem="@bind(vm.feed.feedType)">
+                    <template name="model"   >
+                        <comboitem label="@load(each) @converter(vm.enumFromModelConverter, enumClass='FeedType')"/>
+                    </template>
+                </combobox>
+            </listcell>
+        </listitem>
+
+        <listitem>
+            <listcell label="Описание"/>
+            <listcell >
+                <textbox value="@bind(vm.feed.description)"/>
+            </listcell>
+        </listitem>
+        <listitem>
+            <listcell label="URL"/>
+            <listcell >
+                <textbox value="@bind(vm.feed.url)"/>
+            </listcell>
+        </listitem>
+        <listitem>
+            <listcell label="Время последнего обновления"/>
+            <listcell label="@load(vm.feed.lastUpdate)"/>
+        </listitem>
+        <listitem>
+            <listcell label="Интервал обновлений, мин."/>
+            <listcell >
+                <intbox value="@bind(vm.feed.updateInterval)"/>
+            </listcell>
+        </listitem>
+        <listitem>
+            <listcell label="Ограничение на размер фида, байт"/>
+            <listcell >
+                <longbox value="@bind(vm.feed.allFeedSizeLimit)"/>
+            </listcell>
+        </listitem>
+        <listitem>
+            <listcell label="Ограничение на размер одного предложения, байт"/>
+            <listcell >
+                <longbox value="@bind(vm.feed.offerSizeLimit)"/>
+            </listcell>
+        </listitem>
+
+        <listitem>
+            <listcell label="Ограничение на количество предложений, шт."/>
+            <listcell >
+                <intbox value="@bind(vm.feed.offerCountLimit)"/>
+            </listcell>
+        </listitem>
+
+        <listitem>
+            <listcell label="Включён"/>
+            <listcell >
+                <checkbox checked="@bind(vm.feed.enable)"/>
+            </listcell>
+        </listitem>
+
+
+    </listbox>
+        <hbox>
+            <button sclass="saveButton" label="Сохранить" onClick="@command('save')"/>
+            <space width="10px"/>
+            <button  label="Запустить обновление сейчас" onClick="@command('runUpdate')"/>
+            <space width="10px"/>
+            <button sclass="cancelButton" label="Отменить" onClick="editFeedWin.detach()"/>
+        </hbox>
+    </window>
+
+</zk>

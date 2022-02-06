@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+
+    <include src="/menu.zul"/>
+    <window id="externalAgencyWin" title="Подключённые внешние агентства"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.ExternalAgencyListVM')">
+        <hbox>
+            <checkbox label="Только включённые" checked="@bind(vm.onlyEnable)"
+                    onCheck="@command('checkOnlyIncludedExternalAgency')"/>
+            <!--     <textbox/>
+             <button label="Найти"/> -->
+            <button iconSclass="z-icon-plus" label="Добавить агентство" onClick="@command('create')"/>
+        </hbox>
+        <listbox model="@load(vm.externalAgencyList)" selectedItem="@bind(vm.selectedExternalAgency)">
+            <listhead>
+                <listheader label="Имя"/>
+                <listheader label="Сайт"/>
+                <listheader label="Количество фидов"/>
+                <listheader label="Включён"/>
+                <listheader label="Период обновления по умолчанию, мин"/>
+            </listhead>
+            <template name="model" var="externalAgency">
+            <listitem context="ctx" onDoubleClick="@command('edit', externalAgency=externalAgency)" onRightClick="self.setSelected(true)" >
+
+                <listcell>
+                    <label style="border-bottom: 1px solid #04FF00" value="@load(externalAgency.name)" visible="@load(externalAgency.enable)" />
+                    <label style="border-bottom: 1px solid #FF0011" tooltiptext="Агентство отключно" value="@load(externalAgency.name)" visible="@load(not externalAgency.enable)" />
+                </listcell>
+                <listcell label ="@load(externalAgency.site)"/>
+                <listcell>
+                    <label value="@load(externalAgency.feedCount)"/>
+                </listcell>
+                <listcell>
+                    <checkbox checked="@bind(externalAgency.enable)" onCheck="@command('enableSave',externalAgency=externalAgency)" />
+                </listcell>
+                <listcell>
+                    <label value="@bind(externalAgency.updatePeriod)"/>
+                </listcell>
+            </listitem>
+            </template>
+        </listbox>
+        <menupopup id="ctx">
+            <menuitem label="Редактировать" onClick="@command('editSelected')"/>
+            <menuitem label="Удалить" onClick="@command('deleteSelected')"/>
+         <!--      <menuitem label="Включить/Выключить" onClick="@command('toggleSelected')"/> -->
+        </menupopup>
+    </window>
+</zk>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <include src="/menu.zul"/>
+    <window id="ownersWin" title="Клиенты" onCancel="ownersWin.detach()"
+            border="normal"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.OwnersVM')">
+
+        <hbox>
+            <div form="@id('fx') @load(vm.filter) @save(vm.filter, before='applyFilter')">
+                <listbox id="list" hflex="min">
+                    <listhead>
+                        <listheader/>
+                        <listheader/>
+                    </listhead>
+                    <listitem style="text-align: center;">
+                        <listcell span="2" label="Поиск"/>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Физ лицо">
+                            <checkbox checked="@bind(fx.natural)"/>
+                        </listcell>
+                        <listcell label="Юр лицо">
+                            <checkbox checked="@bind(fx.juridical)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="ФИО"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.name)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Email"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.email)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Телефон"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.phone)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Мобильный телефон"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.mobilePhone)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Сайт"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.site)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="ИНН"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.inn)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="ОГРН"/>
+                        <listcell>
+                            <textbox hflex="1" value="@bind(fx.ogrn)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell span="2">
+                            <button hflex="1" label="Найти"
+                                    onClick="@command('applyFilter')"/>
+                        </listcell>
+                    </listitem>
+                    <listitem
+                            visible="@load(!fx.natural &amp;&amp; !fx.juridical)">
+                        <listcell span="2" style="text-align: center;">
+                            <label style="color: red;"
+                                   value="Выберите хотя бы один вид клиентов."/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell span="2">
+                            <button hflex="1" label="Добавить физ лицо"
+                                    onClick="@command(vm.addNaturalOwner())"
+                                    iconSclass="z-icon-plus"/>
+                            <button hflex="1" label="Добавить юр лицо"
+                                    onClick="@command(vm.addJuridicalOwner())"
+                                    iconSclass="z-icon-plus"/>
+                        </listcell>
+                    </listitem>
+                </listbox>
+            </div>
+
+            <listbox model="@bind(vm.ownersListModel)" mold="paging"
+                     pageSize="@load(vm.ownersListModel.pageSize)">
+                <listhead style="text-align: center;">
+                    <listheader hflex="15" label="ФИО"/>
+                    <listheader hflex="15" label="Email"/>
+                    <listheader hflex="12" label="Телефон"/>
+                    <listheader hflex="12" label="Мобильный телефон"/>
+                    <listheader hflex="30" label="Комментарий"/>
+                    <listheader hflex="8"/>
+                    <listheader hflex="8"/>
+                </listhead>
+                <template name="model" var="owner">
+                    <listitem
+                            onDoubleClick="@command('viewOwner', owner = owner)">
+                        <listcell label="@load(owner.name)"/>
+                        <listcell label="@load(owner.email)"/>
+                        <listcell label="@load(owner.phone)"/>
+                        <listcell label="@load(owner.mobilePhone)"/>
+                        <listcell>
+                            <label value="@load(owner.comment)"
+                                   maxlength="55"/>
+                        </listcell>
+                        <listcell>
+                            <div style="text-align: center;">
+                                <button label="Изменить"
+                                        onClick="@command('editOwner', owner = owner)"/>
+                            </div>
+                        </listcell>
+                        <listcell>
+                            <div style="text-align: center;">
+                                <button label="Удалить"
+                                        onClick="@command('deleteOwner', ownerId = owner.id)"/>
+                            </div>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </hbox>
+    </window>
+</zk>

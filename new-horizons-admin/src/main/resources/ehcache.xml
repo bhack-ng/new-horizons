@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="java.io.tmpdir/ehcache" />
+    <cache name="org.hibernate.cache.internal.StandardQueryCache"
+           maxElementsInMemory="20" eternal="false" timeToLiveSeconds="120"
+           overflowToDisk="true" />
+
+    <cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+           maxElementsInMemory="5000" eternal="true" overflowToDisk="true" />
+
+
+    <cache name="Photo"
+           maxElementsInMemory="5"
+           eternal="false"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <defaultCache maxElementsInMemory="50000" eternal="true" overflowToDisk="true" />
+</ehcache>

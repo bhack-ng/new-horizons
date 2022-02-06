@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+
+        >
+    <panel title="PrivateHouseSale" viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.EditPrivateHouseSaleVM')">
+        <panelchildren>
+            <listbox>
+                <listitem  >
+                    <listcell label="Площадь дома"/>
+                    <listcell>
+                        <doublebox value="@bind(vm.steadArea.total)"/>
+                    </listcell>
+                    <listcell label="Тип здания "/>
+                    <listcell>
+                        <combobox  model = "@load(vm.wallsType)" selectedItem="@bind(vm.realtyObject.wallsType)"/>
+                        <template name="model" var = "ot">
+                            <comboitem label="@load(ot) @converter(vm.enumFromSteadConverter ,enumClass ='WallsType')"/>
+                        </template>
+                    </listcell>
+                    <listcell/>
+                </listitem>
+        </listbox>
+        </panelchildren>
+    </panel>
+
+
+</zk>

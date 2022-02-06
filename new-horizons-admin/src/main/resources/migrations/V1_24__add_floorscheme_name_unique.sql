@@ -1,0 +1,1 @@
+ALTER TABLE floorscheme ADD CONSTRAINT name_const UNIQUE (name);

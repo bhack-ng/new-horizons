@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native"
+>
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.CommentsPanelVM')">
+        <vbox>
+
+                <textbox rows="2" placeholder="Текст комментария" value="@load(vm.comment.text) @save(vm.comment.text, before='addComment')" width="100%" constraint="no empty"/>
+                <button label="Добавить комментарий" onClick="@command('addComment')" />
+
+
+            <listbox model="@load(vm.realtyObject.comments)" width="100%">
+                <listhead >
+                    <listheader label="Текст" width="90%" sort="auto(text)"/>
+                    <listheader label="Дата, Автор"  sort="auto(created)"/>
+                </listhead>
+                <template name="model" var="com">
+                    <listitem>
+                        <listcell label="@load(com.text)"/>
+                        <listcell >
+                            <label value="@load(com.created)"/>
+                            <h:br/>
+                            <label value="@load(com.author.fio)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </vbox>
+    </idspace>
+</zk>

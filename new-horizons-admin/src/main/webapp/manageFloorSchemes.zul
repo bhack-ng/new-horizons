@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <include src="/menu.zul"/>
+    <window id="bindWin" border="normal" sizable="false"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ManageFloorSchemesVM')">
+
+        <?script id="pageJS" type="text/javascript" src="multi-show-offices/new-horizons-schema.js"?>
+
+        <listbox model="@load(vm.floorSchemes)">
+            <listhead>
+                <listheader label="Id" hflex="10"/>
+                <listheader label="Name" hflex="10"/>
+                <listheader label="Image" hflex="100"/>
+                <listheader hflex="10"/>
+            </listhead>
+            <template name="model" var="scheme">
+                <listitem>
+                    <listcell label="@load(scheme.id)"/>
+                    <listcell label="@load(scheme.name)"/>
+                    <listcell>
+                        <h:canvas class="floor" data-floorId="@load(scheme.id)"
+                                  width="1000" height="340"/>
+                    </listcell>
+                    <listcell>
+                        <button label="Удалить"
+                                onClick="@command('deleteFloorScheme', id=scheme.id)"/>
+                    </listcell>
+                </listitem>
+            </template>
+        </listbox>
+
+        <h:div class="new-horizons-popup" style="position: fixed;">
+            <h:div style="height: 100px;">
+                <h:div style="float: left;">
+                    <h:img class="realty-image" alt="No Image"/>
+                </h:div>
+                <h:div class="realty-info">
+                    <h:div class="realty-number"></h:div>
+                    <h:div class="realty-area"></h:div>
+                    <h:div class="realty-status"></h:div>
+                </h:div>
+            </h:div>
+            <h:div class="realty-offer-text"></h:div>
+        </h:div>
+
+    </window>
+</zk>

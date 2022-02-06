@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <window id="bindWin" title="Привязать объект недвижиости к плану"
+            border="normal" mode="modal" closable="true" position="left,top"
+            sizable="false"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.BindRealtyObjectToFloorSchemeVM')">
+
+        <hbox>
+            <iframe id="frame" width="1100px" height="500px"/>
+            <vbox>
+                <combobox model="@load(vm.floorSchemes)" readonly="true"
+                          selectedItem="@bind(vm.selectedScheme)">
+                    <template name="model" var="item">
+                        <comboitem label="@load(item.name)"/>
+                    </template>
+                </combobox>
+                <textbox id="floorSchemeName"/>
+                <button label="Добавить план"
+                        upload="true, maxsize=-1, accept=.jpg"
+                        onUpload="@command('uploadFloorScheme', image=event.getMedia())"/>
+            </vbox>
+        </hbox>
+    </window>
+</zk>

@@ -1,0 +1,1 @@
+ALTER TABLE livearea DROP COLUMN liftCount;

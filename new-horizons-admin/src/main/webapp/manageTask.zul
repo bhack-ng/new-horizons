@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <window title="Управление задачей" width="300px"
+            border="normal" sizable="false" closable="true"
+            onCancel="@command('close')" mode="modal"
+            validationMessages="@id('vmsgs')"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ManageTaskVM')">
+
+        <div form="@id('fx') @load(vm.task) @save(vm.task, before='submit')
+                    @validator(vm.validator)">
+
+            <listbox>
+                <listhead>
+                    <listheader hflex="25"/>
+                    <listheader hflex="75"/>
+                </listhead>
+                <listitem>
+                    <listcell label="Дата"/>
+                    <listcell>
+                        <datebox hflex="1" format="dd.MM.yyyy HH:mm"
+                                 value="@bind(fx.executionDatetime)"/>
+                        <label style="color: red;"
+                               value="@load(vmsgs['executionDatetime'])"/>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Для"/>
+                    <listcell>
+                        <combobox hflex="1" model="@load(vm.agents)"
+                                  readonly="true"
+                                  selectedItem="@bind(vm.task.executor)">
+                            <template name="model" var="item">
+                                <comboitem label="@load(item.fio)"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Клиент"/>
+                    <listcell>
+                        <combobox hflex="1" model="@load(vm.clients)"
+                                  onChanging="@command('changing', event=event)"
+                                  placeholder="Начните вводить текст"
+                                  selectedItem="@bind(fx.client)">
+                            <template name="model" var="item">
+                                <comboitem label="@load(item.name)"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Статус"/>
+                    <listcell>
+                        <combobox hflex="1" model="@load(vm.statuses)"
+                                  selectedItem="@bind(fx.status)">
+                            <template name="model" var="item">
+                                <comboitem label="@load(item)
+                                    @converter(vm.statusConverter, enumClass = 'ClientTaskStatus')"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Описание"/>
+                    <listcell>
+                        <textbox value="@bind(fx.description)" hflex="1"
+                                 rows="3"/>
+                        <label style="color: red;"
+                               value="@load(vmsgs['description'])"/>
+                    </listcell>
+                </listitem>
+            </listbox>
+
+            <hbox width="280px" style="margin-top: 5px;">
+                <cell hflex="50" style="text-align: center;">
+                    <button label="Сохранить" onClick="@command('submit')"/>
+                </cell>
+                <cell hflex="50" style="text-align: center;">
+                    <button label="Отмена" onClick="@command('close')"/>
+                </cell>
+            </hbox>
+        </div>
+    </window>
+</zk>

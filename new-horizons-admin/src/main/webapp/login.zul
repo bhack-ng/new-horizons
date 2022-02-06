@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native"
+>
+
+    <window id="win" title="Открытая база недвижимости 'Новые горизонты'" border="normal" mode="overlapped"     position="center,center" width="400px"  >
+
+
+
+        <label   style="color:red"  if="${param.login_error=='BadCredentials'}" >
+            Неверные логин или пароль.
+        </label>
+        <label   style="color:red"  if="${param.login_error=='Disabled'}" >
+           Аккаунт заблокирован.
+        </label>
+        <label   style="color:red"  if="${param.login_error=='CredentialsExpired'}" >
+            CredentialsExpired.
+        </label>
+        <label   style="color:red"  if="${param.login_error=='Locked'}" >
+            Locked.
+        </label>
+
+
+        <h:form id="f" name="f" action="login" method="POST"  >
+        <listbox   hflex="max" vflex="min">
+
+            <listitem>
+                <listcell>Логин</listcell><listcell><textbox  id="u" name="username" /></listcell>
+            </listitem>
+            <listitem>
+                <listcell>Пароль</listcell><listcell><textbox id="p" type="password" name="password" /></listcell>
+            </listitem>
+            <listitem>
+                <listcell>Запомнить меня</listcell><listcell><h:input type="checkbox" id="rememberme" name="remember-me"/></listcell>
+            </listitem>
+            <listitem>
+                <listcell></listcell><listcell> <h:input type="submit" value="Войти"/></listcell>
+            </listitem>
+            <listitem>
+                <listcell>Не помните пароль?   </listcell>
+                <listcell><h:a href="recoveryPassword.zul">Восстановить</h:a></listcell>
+            </listitem>
+        </listbox>
+    </h:form>
+    </window>
+</zk>

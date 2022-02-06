@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <window id="editWin" title="@load(('Редактирование объекта недвижимости № ' += vm.realtyObject.id ))" border="normal"
+            mode="modal" closable="true" maximizable="true" width="90%" onCancel="editWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.OutOfTownSaleVM')">
+
+        <tabbox id="tabbox">
+            <tabs >
+                <tab label="Свойства объекта"/>
+                <tab label="Публикация"
+                     onSelect="@command('openPublicationPanel')"/>
+                <tab label="Контакты собственника" onSelect="@command('openContactsOfOwnerPanel')" disabled="@load(vm.realtyObject.id eq null)"/>
+                <!--<tab label="Другие контакты"/>-->
+                <tab label="Фото" onSelect="@command('openPhotoPanel')" disabled="@load(vm.realtyObject.id eq null)"/>
+                <tab label="Коментарии" onSelect="@command('openCommentsPanel')" disabled="@load(vm.realtyObject.id eq null)"/>
+                <tab label="Аудиофайлы"/>
+                <tab label="Рекомендации" onSelect="@command('openRecommendationsPanel')" disabled="@load(vm.realtyObject.id eq null)"/>
+            </tabs>
+            <tabpanels>
+                <tabpanel id="mainPanel">
+                    <include realtyObject="@load(vm.realtyObject)" src="@load('/WEB-INF/zul/realtyObjectMainProperties.zul')"/>
+                    <include realtyObject="@load(vm.realtyObject)" src="@load(vm.linkToZul)"/>
+
+                    <panel title="Комиссии">
+                        <panelchildren>
+                            <listbox>
+                                <listitem>
+                                    <listcell label="Наша комиссия" tooltiptext="agencyCommission"/>
+                                    <listcell>
+                                        <doublebox value="@bind(vm.realtyObject.commission.agencyCommission)"/>
+                                    </listcell>
+                                    <listcell label="Комиссия агента" tooltiptext="salesCommission?"/>
+                                    <listcell>
+                                        <doublebox value="@bind(vm.realtyObject.commission.salesCommission)"/>
+                                    </listcell>
+                                    <listcell label="Комиссия клиента" tooltiptext="buyerCommission?"/>
+                                    <listcell>
+                                        <doublebox value="@bind(vm.realtyObject.commission.buyerCommission)"/>
+                                    </listcell>
+                                </listitem>
+                            </listbox>
+                        </panelchildren>
+                    </panel>
+                    <panel title="Остальные параметры">
+                        <panelchildren>
+                            <listbox>
+                                <listitem>
+                                    <listcell label="@bind(vm.priceType)"/>
+                                    <listcell>
+                                        <intbox value="@bind(vm.realtyObject.price.value)"/>
+                                        <combobox width="80px" model="@load(vm.currencyList)" constraint="no empty"
+                                                  selectedItem="@load(vm.realtyObject.price.currency) @save(vm.realtyObject.price.currency, before='save')">
+                                            <template name="model" var="cur">
+                                                <comboitem label="@load(cur.name())"/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+
+                                    <listcell label="Направление" />
+                                    <listcell>
+                                        <combobox model = "@load(vm.directionRoadList)" value="@load(vm.realtyObject.directionRoad.roadName)"
+                                                  selectedItem="@bind(vm.realtyObject.directionRoad)"
+                                                  onFocus="@command('findDirectionRoad')">
+                                            <template name="model" var = "dr">
+                                                <comboitem label="@load(dr.roadName)"/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                </listitem>
+                                <listitem>
+                                    <listcell label="Широта"/>
+                                    <listcell>
+                                        <textbox value="@bind(vm.realtyObject.address.geoCoordinates.latitude)"/>
+                                    </listcell>
+                                    <listcell label="Долгота"/>
+                                    <listcell>
+                                        <textbox value="@bind(vm.realtyObject.address.geoCoordinates.longitude)"/>
+                                        <button label="Найти координаты" onClick="@command('selectGeoCoordinate')"/>
+                                    </listcell>
+                                </listitem>
+                                <listitem>
+                                    <listcell label="Площадь участка"/>
+                                    <listcell>
+                                        <textbox value="@bind(vm.realtyObject.area.lendArea)"/>
+                                    </listcell>
+                                    <listcell label="Расстояние до города" >
+                                        <image src="img/question.png" width="15px"  tooltiptext="Если объект в черте города укажите 0 в этом поле"/>
+                                    </listcell>
+                                    <listcell>
+                                        <intbox value="@bind(vm.realtyObject.distanceToCity)"/>
+
+                                    </listcell>
+                                </listitem>
+                            </listbox>
+                        </panelchildren>
+                    </panel>
+                    <panel title="Текст объявления">
+                        <panelchildren>
+                            <textbox value="@bind(vm.realtyObject.note)" rows="4" width="100%" maxlength="2048"/>
+                        </panelchildren>
+                    </panel>
+                </tabpanel>
+                <tabpanel id="publicationPanel">
+                    <!--insert publicationPanel here-->
+                </tabpanel>
+                <tabpanel id="contactsOfOwnerPanel"/>
+                <!--<tabpanel></tabpanel>-->
+                <tabpanel id="photoPanelTabPanel">
+                    <!--insert photoPanel here-->
+                </tabpanel>
+                <tabpanel id="commentsPanel">
+                    <!--insert commentsPanel here-->
+                </tabpanel>
+                <tabpanel id="audioFilesPanel">
+                    <!--insert audioFilesPanel here-->
+                </tabpanel>
+                <tabpanel id="recomendationsPanel">
+                    <!--insert recomendationsPanel here-->
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+
+        <button sclass="saveButton" label="Сохранить" onClick="@command('save')" visible="@bind(vm.realtyObject.externalObectExt eq null)"/>
+        <space width="10px"/>
+        <button  sclass="cancelButton" label="Отменить" onClick="@command('cancel')"/>
+    </window>
+</zk>

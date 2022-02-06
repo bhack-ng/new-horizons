@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <window id="frendsListWin" title="Рекомендованные Агентства" border="normal"
+            mode="modal" closable="true" maximizable="true"  onCancel="frendsListWin.detach()" width="80%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.FriendsListVM')">
+
+        <listbox model="@load(vm.friendList)">
+            <listhead>
+                <listheader label="Название агентства"/>
+                <listheader label="Ссылка на фиды"/>
+                <listheader label="Действия"/>
+            </listhead>
+            <template name="model" var="friend" >
+            <listitem>
+                <listcell label="@load(friend.name)" />
+                <listcell label="@load(friend.url)"/>
+                <listcell >
+                    <button iconSclass="z-icon-plus"  onClick="@command('addAgency', friend=friend)" disabled="@load(vm.containAgency(friend))"/>
+                    <image src="/img/saveButton.png" width="16px" visible="@load(vm.containAgency(friend))"/>
+                </listcell>
+            </listitem>
+            </template>
+        </listbox>
+        <button sclass="cancelButton" label="Отменить" onClick="frendsListWin.detach()"/>
+    </window>
+</zk>

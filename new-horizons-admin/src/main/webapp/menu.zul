@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+
+    <menubar apply="ru.simplex_software.arbat_baza.MenuController">
+        <menu label="Выбор типа объекта" >
+            <menupopup>
+                <menu label="Коммерческая недвижимость">
+                    <menupopup>
+                        <menuitem label="Продажа" id="commerceSaleFilter" />
+                        <menuitem label="Аренда" id="commerceLeaseFilter"/>
+                    </menupopup>
+                </menu>
+                <menu label="Жилая недвижимость">
+                    <menupopup >
+                        <menuitem label="Продажа" id="liveSaleFilter" />
+                        <menuitem label="Аренда" id="liveLeaseFilter" />
+                    </menupopup>
+                </menu>
+                <menu label="Участки">
+                    <menupopup >
+                        <menuitem label="Продажа" id="steadSaleFilter" />
+                        <menuitem label="Аренда" id="steadRentFilter" />
+                    </menupopup>
+                </menu>
+                <menu label="Дома,Коттеджи,Дачи">
+                    <menupopup >
+                        <menuitem label="Продажа" id="privateHouseSaleFilter" />
+                        <menuitem label="Аренда" id="privateHouseRentFilter" />
+                    </menupopup>
+                </menu>
+            </menupopup>
+        </menu>
+        <menu label="Администрирование">
+            <menupopup >
+                <menuitem label="Пользователи" href="/admin/agents.zul" value="ROLE_ADMIN"/>
+                <!--<menuitem label="Улицы" href="/admin/streets.zul" value="ROLE_ADMIN"/>-->
+                <menuitem label="Подключённые внешние агентства" href="/admin/externalAgencyList.zul" value="ROLE_ADMIN"/>
+                <menuitem label="Импорт адресного справочника ФИАС" id="importFiasItm" value="ROLE_ADMIN"/>
+                <menuitem label="Настройки моего агентства" id="agencySettings" value="ROLE_ADMIN"/>
+                <menuitem label="Лог фоновых задач" id="DBMessageLogItm" value="ROLE_ADMIN"/>
+                <menu label="XML выгрузки">
+                    <menupopup>
+                        <menu label="Циан">
+                            <menupopup>
+                                <menuitem label="Коммерция" href="/cian/commerical.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Жилая аренда" href="/cian/liveLease.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Жилая продажа" href="/cian/liveSale.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Лог импорта в циан" id="cianReportItm" target="_blank" value="ROLE_ADMIN"/>
+                            </menupopup>
+                        </menu>
+                        <menuitem label="Авито" href="/avito/avito.xml" target="_blank" value="ROLE_ADMIN"/>
+                        <menuitem label="Yandex" href="/yandex/yandex.xml" target="_blank" value="ROLE_ADMIN"/>
+
+                        <menu label="Внешние сайты">
+                            <menupopup>
+                                <menuitem label="Коммерция" href="/external/commerical.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Жилая аренда" href="/external/liveLease.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Жилая продажа" href="/external/liveSale.xml" target="_blank" value="ROLE_ADMIN"/>
+                                <menuitem label="Формат Avito" href="/external/avito.xml" target="_blank" value="ROLE_ADMIN"/>
+
+                            </menupopup>
+                        </menu>
+                    </menupopup>
+                </menu>
+
+                <menuitem label="Импорт объектов из эксель"  id="excelImportItm"/>
+
+                <menuitem label="Управление планами"
+                          href="manageFloorSchemes.zul"/>
+                <menuitem label="Генерация офисов по образцу"
+                          id="generateOffices"/>
+            </menupopup>
+        </menu>
+        <menu label="Клиенты и задачи">
+            <menupopup>
+                <menuitem label="Клиенты" href="owners.zul"/>
+                <menuitem label="Задачи" href="showTasks.zul"/>
+            </menupopup>
+        </menu>
+        <menu label="Помощь">
+            <menupopup>
+                <menuitem id="docItm" label="FAQ"/>
+                <menuitem id="integrationItm" label="Интеграция с сайтом"/>
+                <menuitem id="aboutItm" label="О программе"/>
+            </menupopup>
+        </menu>
+
+        <menuitem label="Выйти" href="/logout"/>
+    </menubar>
+</zk>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="agencySettingsWin" title="Редактирование настроек агенста" border="normal"
+            mode="modal" closable="true" maximizable="true" width="60%" onCancel="agencySettingsWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.EditAgencySettingsVM')">
+        <hbox>
+            <listbox>
+                <listhead>
+                    <listheader width="30%"/>
+                    <listheader/>
+                </listhead>
+                <listitem>
+                    <listcell label="Название агентства"/>
+                    <listcell >
+                       <textbox  width="100%" value="@bind(vm.agency.name)" />
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Телефон"/>
+                    <listcell >
+                             <textbox  width="100%"
+                                      value="@load(vm.agency.phone) @save(vm.agency.phone,before='save' )" constraint="/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/"/>
+                    </listcell>
+                </listitem>
+
+                <listitem>
+                    <listcell label ="Сайт агентства"/>
+                    <listcell>
+                        <textbox width="100%"
+                                 value="@bind(vm.agency.agencyURL)">
+                        </textbox>
+                    </listcell>
+                </listitem>
+
+                <listitem>
+                    <listcell label="Время синхронизации по умолчанию, мин." />
+                    <listcell >
+                        <intbox  width="100%" value="@load(vm.agency.defaultUpdateInterval) @save(vm.agency.defaultUpdateInterval,before='save')"
+                                 constraint="no zero,no negative :значение должно быть больше нуля"/>
+                    </listcell>
+                </listitem>
+            </listbox>
+
+            <vbox>
+                <label value="Водяной знак"/>
+                <image src="@load(vm.imageUrl)" width="200px"  style="border:1"/>
+                <button id="btnUpload" upload="true,maxsize=-1"
+                    mold="trendy"
+                    label="Загрузить водяной знак" onUpload="@command('upload')"/>
+            </vbox>
+
+        </hbox>
+        <panel title="Адрес по умолчанию"
+               tooltip="Используется при создании новоого объекта и поиске новых агентств">
+            <panelchildren>
+                <listbox>
+                    <listitem>
+                        <listcell><label value="Регион" sclass="required"/>
+                            <combobox model="@load(vm.levels[0])" selectedItem="@bind(vm.selections[0])"
+                                      onSelect="@command('selectionChanged', zLevel=0)" >
+                                <template name="model" var="fo">
+                                    <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                        <listcell>Район
+                            <combobox model="@load(vm.levels[2])" selectedItem="@bind(vm.selections[2])"
+                                      onSelect="@command('selectionChanged', zLevel=2)" >
+                                <template name="model" var="fo">
+                                    <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                        <listcell>Город
+                            <combobox model="@load(vm.levels[3])" selectedItem="@bind(vm.selections[3])"
+                                      onSelect="@command('selectionChanged', zLevel=3)" >
+                                <template name="model" var="fo">
+                                    <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                        <listcell><label value="Населённый пункт/микрорайон" tooltiptext="Населённый пункт/микрорайон"/>
+                            <combobox model="@load(vm.levels[5])" selectedItem="@bind(vm.selections[5])"
+                                      onSelect="@command('selectionChanged', zLevel=5)" >
+                                <template name="model" var="fo">
+                                    <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                </listbox>
+            </panelchildren>
+        </panel>
+
+
+        <hbox>
+            <button sclass="saveButton" label="Сохранить" onClick="@command('save')"/>
+            <space width="10px"/>
+            <button sclass="cancelButton" label="Отменить" onClick="agencySettingsWin.detach()" />
+        </hbox>
+    </window>
+</zk>

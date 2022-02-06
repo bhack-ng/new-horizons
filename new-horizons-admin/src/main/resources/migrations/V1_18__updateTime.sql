@@ -1,0 +1,1 @@
+UPDATE realtyobject SET creationtime = now();

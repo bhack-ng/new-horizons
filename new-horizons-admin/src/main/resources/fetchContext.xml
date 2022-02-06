@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean class="java.util.concurrent.DelayQueue"  name="feedQueue"/>
+
+    <bean id="feedFetchExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="WaitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
+
+
+    <bean id="offerParserExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="WaitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
+
+
+
+    <bean class="java.lang.Thread" init-method="start">
+        <constructor-arg index="0" ref="feedManager"/>
+    </bean>
+
+    <bean class="ru.simplex_software.ord.FeedManager" name="feedManager" />
+    <bean class="ru.simplex_software.ord.FeedService" name="feedService" />
+    <bean class="ru.simplex_software.ord.SplitFeedTask" name="splitFeedTask" scope="prototype"/>
+    <bean class="ru.simplex_software.ord.CianCommerceOfferParserTask"  name="cianCommerceOfferParserTask"   scope="prototype"/>
+    <bean class="ru.simplex_software.ord.CianLiveRentOfferParserTask" name="cianLiveRentOfferParserTask"  scope="prototype"/>
+    <bean class="ru.simplex_software.ord.CianLiveSaleOfferParserTask" name="cianLiveSaleOfferParserTask"  scope="prototype"/>
+
+</beans>

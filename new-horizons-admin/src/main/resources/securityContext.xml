@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <!-- API -->
+    <http pattern="/api/**" security="none"/>
+
+    <http auto-config="true" use-expressions="false">
+
+        <headers>
+            <!--http://forum.zkoss.org/question/97836/fileupload-problem-onupload-not-fired-progressbar-stucked-at-100/-->
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <intercept-url pattern="/login.zul*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/recoveryPassword.zul*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/changePassword.zul*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/cian/commerical.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/cian/liveLease.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/cian/liveSale.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/external/commerical.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/external/liveLease.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/external/liveSale.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/feeds.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/friends.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <!-- для тольок для отладки и тестирования , в будующем удалить обязательно -->
+        <intercept-url pattern="/feed.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/feedSale.xml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+
+        <intercept-url pattern="/photo*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/zkau/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/show-offices/data.js"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/show-offices/site.js"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/show-offices/style.css"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/show-offices/new-horizons-schema.js"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/show-offices/image"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/show-offices/index.html"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/services/**"
+                       access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/**" access="ROLE_AGENT"/>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+
+        <form-login login-page="/login.zul" default-target-url="/"
+                    authentication-failure-handler-ref="authenticationFailureHandler"
+                    always-use-default-target="true"
+                    username-parameter="username" password-parameter="password"
+        />
+        <logout logout-url="/logout" logout-success-url="/login.zul"/>
+        <remember-me key="geirgertgeyhrteek45#ohm3" />
+        <session-management invalid-session-url="/" />
+        <anonymous/>
+        <csrf disabled="true"/>
+    </http>
+    <beans:bean name="authenticationFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <beans:property name="exceptionMappings">
+            <beans:props>
+                <beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login.zul?login_error=BadCredentials</beans:prop>
+                <beans:prop key="org.springframework.security.authentication.CredentialsExpiredException">/login.zul?login_error=CredentialsExpired</beans:prop>
+                <beans:prop key="org.springframework.security.authentication.LockedException">/login.zul?login_error=Locked</beans:prop>
+                <beans:prop key="org.springframework.security.authentication.DisabledException">/login.zul?login_error=Disabled</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService" >
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+
+
+    <beans:bean id="userDetailsService"
+          class="ru.simplex_software.arbat_baza.HibernateDaoImpl">
+    </beans:bean>
+
+</beans:beans>

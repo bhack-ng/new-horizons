@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+        >
+    <panel title="SteadRent" viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.EditSteadRentVM')">
+        <panelchildren>
+            <listbox>
+                <listitem >
+                    <listcell label="Тип участка"/>
+                    <listcell>
+                        <combobox  model = "@load(vm.objectType)" selectedItem="@bind(vm.realtyObject.objectType)"/>
+                        <template name="model" var = "ot">
+                            <comboitem label="@load(ot) @converter(vm.enumFromSteadConverter ,enumClass ='ObjectType')"/>
+                        </template>
+                    </listcell>
+
+                </listitem>
+                <listitem>
+                    <listcell label="Депозит"/>
+                    <listcell>
+                        <doublebox value="@bind(vm.realtyObject.price.prepay)"/> мес.
+                    </listcell>
+
+                </listitem>
+            </listbox>
+        </panelchildren>
+    </panel>
+
+</zk>

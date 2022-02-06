@@ -1,0 +1,108 @@
+.saveButton,.cancelButton,.refreshButton{
+    text-indent:20px;
+    font-family:indent;
+    margin-top: 2px;
+
+}
+.saveButton{
+    background:url(img/saveButton.png) no-repeat 3px 2px;
+    background-size: 17% ;
+
+}
+
+.saveButton:hover{
+    background:url(img/saveButton.png) no-repeat 2px 1px;
+    border-radius:8px;
+    background-size: 20%
+
+}
+.saveButton:active{
+    background:url(img/saveButton.png) no-repeat 2px 2px;
+    border-radius:8px;
+    background-size: 17%
+
+
+}
+.saveButton:focus{
+    background:url(img/saveButton.png) no-repeat 2px 2px;
+    border-radius:8px;
+    background-size: 17%
+}
+
+.cancelButton {
+    background: url(img/cancelButton.png) no-repeat 3px 4px  ;
+    background-size: 16%;
+}
+.cancelButton:hover{
+    border-radius:8px;
+    background:url(img/cancelButton.png) no-repeat 2px 3px;
+    background-size: 18%;
+}
+.cancelButton:active{
+    background: url(img/cancelButton.png) no-repeat 3px 4px;
+    background-size: 16%;
+}
+
+.cancelButton:focus{
+    background: url(img/cancelButton.png) no-repeat 3px 4px;
+    background-size: 16%;
+}
+
+.refreshButton {
+    background: url(img/refreshButton.png) no-repeat 3px 4px  ;
+    background-size: 16%;
+}
+.refreshButton:hover{
+    border-radius:8px;
+    background:url(img/refreshButton.png) no-repeat 2px 3px;
+    background-size: 18%;
+}
+.refreshButton:active{
+    background: url(img/refreshButton.png) no-repeat 3px 4px;
+    background-size: 16%;
+}
+
+.refreshButton:focus{
+    background: url(img/refreshButton.png) no-repeat 3px 4px;
+    background-size: 16%;
+}
+.required:after {
+   content: "*";
+   color:red;
+}
+
+.new-horizons-popup {
+    width: 320px;
+    height: 125px;
+    border: 3px solid #3B99F7;
+    border-radius: 5px;
+    text-align: center;
+    padding: 3px;
+    display: none;
+    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 41%,#53cbf1 76%,#05abe0 100%);
+}
+
+.realty-info {
+    float: right;
+    margin: 3px;
+}
+
+.realty-number {
+    margin-top: 5px;
+    height: 30px;
+}
+
+.realty-area {
+    height: 30px;
+}
+
+.realty-image {
+    width: 180px;
+    height: 100px;
+}
+
+.realty-offer-text {
+    float: left;
+}
+
+

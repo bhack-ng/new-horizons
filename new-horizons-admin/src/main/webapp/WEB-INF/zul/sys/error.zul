@@ -1,0 +1,19 @@
+<window title="Error ${requestScope['javax.servlet.error.status_code']}"
+        width="400px" border="normal" mode="modal" closable="true" sizable="true">
+    <vbox>
+        <hbox><label value="Произошла ошибка: "/> ${requestScope['javax.servlet.error.message']}</hbox>
+        <hbox>Временная метка:<label id="dataVal"/><zscript>dataVal.value=""+new Date().getTime()</zscript></hbox>
+        <hbox style="margin-left:auto; margin-right:auto">
+            <button label="Продолжить" onClick="spaceOwner.detach()"/>
+            <button label="Перезагрузить всю страницу" onClick="Executions.sendRedirect(null)"/>
+        </hbox>
+    </vbox>
+
+    <!-- optional: record the error for improving the app -->
+    <zscript>
+        org.zkoss.util.logging.Log.lookup("Fatal").error(
+            ""+new Date().getTime()+
+            requestScope.get("javax.servlet.error.exception")
+        );
+    </zscript>
+</window>

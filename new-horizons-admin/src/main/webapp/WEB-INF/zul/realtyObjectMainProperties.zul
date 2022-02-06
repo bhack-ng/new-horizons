@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <listbox>
+        <listhead>
+            <listheader width="16%"/>
+            <listheader width="22%"/>
+            <listheader width="30%"/>
+            <listheader width="26%"/>
+            <listheader width="16%"/>
+        </listhead>
+        <listitem>
+            <listcell label="Номер лота:">
+                <label value="@load(vm.realtyObject.id)"/>
+            </listcell>
+            <listcell>
+                <label value="Дата изменения:"/>
+                <label value="@load(vm.changed)"/>
+            </listcell>
+            <listcell>
+                <label value="Внешнее агентство:"/>
+                <label value="@load(vm.realtyObject.externalObectExt.feed.externalAgency.name))"/>
+            </listcell>
+            <listcell>
+                <label value="Фид:"/>
+                <label value="@load(vm.realtyObject.externalObectExt.feed.description)"/>
+            </listcell>
+            <listcell>
+                <label value="внешний id:"/>
+                <label value="@load(vm.realtyObject.externalObectExt.externalId)"/>
+            </listcell>
+        </listitem>
+        <listitem>
+            <listcell label="Статус объекта"/>
+            <listcell>
+                <combobox model="@load(vm.statuses)" width="100%"
+                          disabled="@load(vm.viewMode)"
+                          selectedItem="@bind(vm.realtyObject.objectStatus)">
+                    <template name="model" var="status">
+                        <comboitem label="@load(status.name)"/>
+                    </template>
+                </combobox>
+            </listcell>
+            <listcell label="Дата след. звонка"/>
+            <listcell>
+                <datebox value="@bind(vm.realtyObject.nextCall)
+                          @converter(vm.jsr310Converter)"/>
+            </listcell>
+            <listcell/>
+        </listitem>
+        <listitem>
+            <listcell label="Пользователь"/>
+            <listcell>
+                <combobox model="@load(vm.agentList)"
+                          disabled="@load(vm.viewMode)"
+                          selectedItem="@bind(vm.realtyObject.agent)">
+                    <template name="model" var="agent">
+                        <comboitem label="@load(agent.fio)"/>
+                    </template>
+                </combobox>
+            </listcell>
+            <listcell/>
+            <!--    <listcell label="Ссылка на циан"/>
+              <listcell>
+                   <textbox value="@bind(vm.realtyObject.linkToCian)"/>
+                   <a href="@load(vm.realtyObject.linkToCian)" target="_blank">Перейти </a>
+               </listcell>    -->
+            <listcell/>
+            <listcell/>
+        </listitem>
+    </listbox>
+
+    <panel title="Адрес"
+           viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.RealtyObjectMainPropertiesVM')">
+        <panelchildren>
+            <listbox>
+                <listhead>
+                    <listheader/>
+                    <listheader/>
+                    <listheader/>
+                    <listheader/>
+                    <listheader/>
+                </listhead>
+                <listitem>
+                    <listcell>
+                        <label value="Регион" sclass="required"/>
+                        <combobox model="@load(vm.levels[0])"
+                                  disabled="@load(vm.viewMode)"
+                                  selectedItem="@bind(vm.selections[0])"
+                                  onSelect="@command('selectionChanged', zLevel=0)">
+                            <template name="model" var="fo">
+                                <comboitem
+                                        label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                    <listcell label="Район">
+                        <combobox model="@load(vm.levels[2])"
+                                  disabled="@load(vm.viewMode)"
+                                  selectedItem="@bind(vm.selections[2])"
+                                  onSelect="@command('selectionChanged', zLevel=2)">
+                            <template name="model" var="fo">
+                                <comboitem
+                                        label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                    <listcell label="Город">
+                        <combobox model="@load(vm.levels[3])"
+                                  disabled="@load(vm.viewMode)"
+                                  selectedItem="@bind(vm.selections[3])"
+                                  onSelect="@command('selectionChanged', zLevel=3)">
+                            <template name="model" var="fo">
+                                <comboitem
+                                        label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                    <listcell>
+                        <label value="НП/МКР"
+                               tooltiptext="Населённый пункт/микрорайон"/>
+                        <image src="img/question.png" width="15px"
+                               tooltiptext="Населённый пункт/микрорайон"/>
+                        <combobox model="@load(vm.levels[5])"
+                                  disabled="@load(vm.viewMode)"
+                                  selectedItem="@bind(vm.selections[5])"
+                                  onSelect="@command('selectionChanged', zLevel=5)">
+                            <template name="model" var="fo">
+                                <comboitem
+                                        label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                    <listcell>
+                        <label value="Улица" sclass="required"/>
+                        <!--@load(vm.realtyObject.metroLocation.metroStation) @save(vm.realtyObject.metroLocation.metroStation, before='save')-->
+                        <combobox onChanging="@command('findStreet')"
+                                  model="@load(vm.levels[6])"
+                                  disabled="@load(vm.viewMode)"
+                                  selectedItem="@bind(vm.selections[6]) "
+                                  onSelect="@command('selectionChanged', zLevel=6)">
+                            <template name="model" var="fo">
+                                <comboitem
+                                        label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell label="Номер дома"/>
+                    <listcell>
+                        <textbox disabled="@load(vm.viewMode)"
+                                 value="@bind(vm.realtyObject.address.house_str)"/>
+                    </listcell>
+                    <listcell label="Номер квартиры"
+                              visible="@load(not vm.stead)">
+                        <textbox disabled="@load(vm.viewMode)"
+                                 value="@bind(vm.realtyObject.address.kvartira)"
+                                 visible="@load(not vm.stead)"/>
+                    </listcell>
+                    <listcell visible="@load( vm.stead)"/>
+                    <listcell/>
+                    <listcell/>
+                </listitem>
+            </listbox>
+        </panelchildren>
+    </panel>
+
+</zk>

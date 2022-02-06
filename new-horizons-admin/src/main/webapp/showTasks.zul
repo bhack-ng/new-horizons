@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <include src="/menu.zul"/>
+    <window title="Просмотр задач" border="normal" onCancel="@command('close')"
+            vflex="1"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ShowTasksVM')">
+
+        <tabbox vflex="1">
+            <tabs>
+                <tab label="Мои задачи на сегодня"/>
+                <tab label="Мои задачи"/>
+                <tab label="Задачи, созданные мной."/>
+                <tab label="Новая задача" onClick="@command('addTask')"/>
+            </tabs>
+            <tabpanels>
+                <tabpanel>
+                    <listbox vflex="1" model="@bind(vm.todayTasksListModel)"
+                             mold="paging" autopaging="true">
+                        <listhead style="text-align: center;">
+                            <listheader hflex="15" label="Дата и время"/>
+                            <listheader hflex="10" label="От"/>
+                            <listheader hflex="10" label="Для"/>
+                            <listheader hflex="10" label="Клиент"/>
+                            <listheader hflex="39" label="Описание"/>
+                            <listheader hflex="8"/>
+                            <listheader hflex="8"/>
+                        </listhead>
+                        <template name="model" var="item">
+                            <listitem>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.executionDatetime)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.creator.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.executor.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.client.name)"/>
+                                <listcell label="@bind(item.description)"/>
+                                <listcell style="text-align: center;">
+                                    <button label="Изменить"
+                                            onClick="@command('editTask', task=item)"/>
+                                </listcell>
+                                <listcell style="text-align: center;">
+                                    <button label="Удалить"
+                                            onClick="@command('deleteTask', taskId=item.id)"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </tabpanel>
+                <tabpanel>
+                    <listbox vflex="1" model="@load(vm.myTasksListModel)"
+                             mold="paging" autopaging="true">
+                        <listhead style="text-align: center;">
+                            <listheader hflex="15" label="Дата и время"/>
+                            <listheader hflex="10" label="От"/>
+                            <listheader hflex="10" label="Для"/>
+                            <listheader hflex="10" label="Клиент"/>
+                            <listheader hflex="39" label="Описание"/>
+                            <listheader hflex="8"/>
+                            <listheader hflex="8"/>
+                        </listhead>
+                        <template name="model" var="item">
+                            <listitem>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.executionDatetime)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.creator.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.executor.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.client.name)"/>
+                                <listcell label="@bind(item.description)"/>
+                                <listcell style="text-align: center;">
+                                    <button label="Изменить"
+                                            onClick="@command('editTask', task=item)"/>
+                                </listcell>
+                                <listcell style="text-align: center;">
+                                    <button label="Удалить"
+                                            onClick="@command('deleteTask', taskId=item.id)"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </tabpanel>
+                <tabpanel>
+                    <listbox vflex="1" model="@bind(vm.createdTasksListModel)"
+                             mold="paging" autopaging="true">
+                        <listhead style="text-align: center;">
+                            <listheader hflex="15" label="Дата и время"/>
+                            <listheader hflex="10" label="От"/>
+                            <listheader hflex="10" label="Для"/>
+                            <listheader hflex="10" label="Клиент"/>
+                            <listheader hflex="39" label="Описание"/>
+                            <listheader hflex="8"/>
+                            <listheader hflex="8"/>
+                        </listhead>
+                        <template name="model" var="item">
+                            <listitem>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.executionDatetime)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.creator.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@bind(item.executor.fio)"/>
+                                <listcell style="text-align: center;"
+                                          label="@load(item.client.name)"/>
+                                <listcell label="@bind(item.description)"/>
+                                <listcell style="text-align: center;">
+                                    <button label="Изменить"
+                                            onClick="@command('editTask', task=item)"/>
+                                </listcell>
+                                <listcell style="text-align: center;">
+                                    <button label="Удалить"
+                                            onClick="@command('deleteTask', taskId=item.id)"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+
+    </window>
+</zk>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <window id="editExternalAgencyWin" title="Редактирование агентства недвижимости" border="normal"
+            mode="modal" closable="true" maximizable="true"   width="90%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.EditExternalAgencyVM')"
+            onClose="@command('close')">
+
+        <listbox>
+            <listhead>
+                <listheader width="20%"/>
+                <listheader width="80%"/>
+            </listhead>
+            <listitem>
+                <listcell label="Название агентства"/>
+                <listcell>
+                    <textbox value="@bind(vm.externalAgency.name)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Cсылка на сайт системы"/>
+                <listcell>
+                    <textbox value="@bind(vm.externalAgency.site)" placeholder="http://site-name/"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Рекомендовать другим"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.externalAgency.friend)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Синхронизация включена"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.externalAgency.enable)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="XML фиды"/>
+                <listcell>
+                    <hbox>
+                        <button iconSclass="z-icon-plus" label="Добавить фид(выгрузку)" onClick="@command('createFeed') " disabled="@load(vm.externalAgency.id eq null)"
+                                tooltiptext="чтобы открыть кнопку сохраните агентство"/>
+                        <button iconSclass="z-icon-plus" label="Добавить все фиды агентства" onClick="@command('createAllFeeds') " disabled="@load(vm.externalAgency.id eq null)"
+                                tooltiptext="чтобы открыть кнопку сохраните агентство"/>
+                    </hbox>
+                    <listbox model="@load(vm.externalAgency.feedList)" selectedItem="@bind(vm.selectedFeed)">
+                        <listhead>
+                            <listheader label="Описание" hflex="15"/>
+                            <listheader label="URL" hflex="15"/>
+                            <listheader label="Время последнего обновления" hflex="19"/>
+                            <listheader label="Инервал обновления" hflex="13"/>
+                            <listheader label="Включён" hflex="9"/>
+                            <listheader label="Посмотреть лог ошибок фида" hflex="18"/>
+
+                        </listhead>
+                        <template name="model" var="feed" >
+                            <listitem context="ctx" onDoubleClick="@command('editFeed', feed=feed)" onRightClick="self.setSelected(true)">
+                                <listcell label="@load(feed.description)"/>
+                                <listcell label="@load(feed.url)"/>
+                                <listcell label="@load(feed.lastUpdate)"/>
+                                <listcell label="@load(feed.updateInterval)"/>
+                                <listcell>
+                                    <checkbox checked="@load(feed.enable)" disabled="true"/>
+                                </listcell>
+                                <listcell hflex = "23">
+                                    <button label="просмотр" onClick="@command('openFeedMessageLog',feed = feed)" />
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </listcell>
+            </listitem>
+        </listbox>
+        <menupopup id="ctx">
+            <menuitem label="Редактировать" onClick="@command('editSelectedFeed')"/>
+            <menuitem label="Удалить" onClick="@command('deleteSelectedFeed'))"/>
+            <menuitem label="Включить/Выключить" onClick="@command('toggleSelectedFeed')"/>
+        </menupopup>
+        <hbox>
+            <button sclass="saveButton" label="Сохранить" onClick="@command('save')"/>
+            <space width="10px"/>
+            <button label="Получить рекомендации" iconSclass="z-icon-search"  onClick="@command('recommendatons')"/>
+            <space width="10px"/>
+            <button sclass="cancelButton" label="Отменить" onClick="@command('close')"/>
+
+        </hbox>
+    </window>
+</zk>

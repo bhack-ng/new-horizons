@@ -1,0 +1,1 @@
+ALTER TABLE clienttask ADD COLUMN status varchar(255);

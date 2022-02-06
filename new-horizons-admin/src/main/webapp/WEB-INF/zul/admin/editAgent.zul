@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <window id="editUserWin" title="Редактирование пользователя" border="normal"
+            mode="modal" closable="true" maximizable="true" width="750px" onCancel="editUserWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.EditAgentVM')">
+        <hbox>
+        <listbox>
+            <listhead>
+                <listheader width="30%"/>
+                <listheader/>
+            </listhead>
+            <listitem>
+                <listcell label="внешний id"/>
+                <listcell >
+                    <longbox value="@bind(vm.agent.externalId)" width="100%"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="ФИО"/>
+                <listcell >
+                    <textbox value="@bind(vm.agent.fio)" width="100%"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Логин"/>
+                <listcell >
+                    <label value="@load(vm.agent.login)" visible="@load(vm.created)"/>
+                    <textbox value="@load(vm.agent.login) @save(vm.agent.login, before='save'))" width="100%"
+                             constraint="/\w+/:" visible="@load(not vm.created)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Пароль"/>
+                <listcell >
+                    <textbox value="@load(vm.agent.password) @save(vm.agent.password, before='save'))" type="password"
+                             width="100%" constraint="/.{6,}/:пароль должен быть не короче 6 символов"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="email"/>
+                <listcell >
+                    <textbox value="@bind(vm.agent.email)" width="100%"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Телефон"/>
+                <listcell >
+                    <textbox value="@bind(vm.agent.phone)" width="100%"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Роль"/>
+                <listcell >
+                    <combobox model="@load(vm.roles)" selectedItem="@bind(vm.agent.role)" width="100%">
+                        <template name="model" var="role">
+                            <comboitem label="@load(role.name())"/>
+                        </template>
+                    </combobox>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Заблокировать"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.agent.blocked)"/>
+                </listcell>
+            </listitem>
+        </listbox>
+            <vbox>
+
+                <image src="@load(vm.imageUrl)" width="200px" />
+
+            </vbox>
+
+        </hbox>
+        <hbox>
+            <button sclass="saveButton" label="Сохранить" onClick="@command('save')"/>
+            <space width="10px"/>
+            <button sclass="cancelButton" label="Отменить" onClick="editUserWin.detach()"/>
+            <space width="10px"/>
+            <button label="Сгенерировать пароль" onClick="@command('generatePassword')"/>
+            <space width="10px"/>
+            <button id="btnUpload" upload="true,maxsize=-1"
+                    mold="trendy"
+                    onUpload="@command('upload')"
+                    label="Загрузить фото" visible="@load(vm.created)"/>
+        </hbox>
+    </window>
+</zk>

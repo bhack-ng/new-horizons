@@ -1,0 +1,1 @@
+ALTER TABLE commercearea ALTER COLUMN min DROP NOT NULL

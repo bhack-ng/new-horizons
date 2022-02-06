@@ -1,0 +1,1 @@
+ALTER TABLE liveOptions DROP COLUMN balcony;

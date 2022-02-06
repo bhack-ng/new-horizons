@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.PhotoPanelVM')">
+        <vbox >
+            <hbox>
+                <button label="Добавить фото" onClick="@command('addNewPhoto')" autodisable="true"/>
+                <button onUpload="@command('upload')" label="Добавить несколько фотографий" upload="true,maxsize=-1,multiple=true" autodisable="true" />
+
+                <radiogroup style="position: absolute;  right: 0;">
+                    <radio iconSclass="z-icon-edit" onClick="@command('setEditMode')" label="Edit" selected="true"/>
+                    <radio iconSclass="z-icon-columns" onClick="@command('setViewMode')" label="View"/>
+                </radiogroup>
+
+            </hbox>
+
+            <include id="include" realtyObject="@load(vm.realtyObject)" src="@load(vm.subPanelLink)"/>
+
+        </vbox>
+    </idspace>
+</zk>

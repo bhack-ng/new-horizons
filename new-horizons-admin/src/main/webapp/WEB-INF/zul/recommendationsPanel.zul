@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.RecommendationsPanelVM')">
+        <vbox>
+            <hbox>
+                <textbox placeholder="ФИО рекомендателя" value="@bind(vm.recommendation.fio)"/>
+                <textbox placeholder="Телефон" value="@bind(vm.recommendation.phone)"/>
+                <textbox placeholder="Email" value="@bind(vm.recommendation.email)"/>
+                <textbox placeholder="Вознаграждение" value="@bind(vm.recommendation.reward)"/>
+                <button label="Добавить рекомендателя" onClick="@command('add')"/>
+            </hbox>
+
+            <listbox model="@load(vm.realtyObject.recommendations)">
+                <listhead>
+                    <listheader label="ФИО рекомендателя"/>
+                    <listheader label="Телефон"/>
+                    <listheader label="email"/>
+                    <listheader label="Вознаграждение"/>
+                    <listheader label="Удаление"/>
+                </listhead>
+                <template name="model" var="rec">
+                    <listitem>
+                        <listcell label="@load(rec.fio)"/>
+                        <listcell label="@load(rec.phone)"/>
+                        <listcell label="@load(rec.email)"/>
+                        <listcell label="@load(rec.reward)"/>
+                        <listcell >
+                            <button label="Удалить" onClick="@command('delete', recommendation=rec)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </vbox>
+    </idspace>
+</zk>

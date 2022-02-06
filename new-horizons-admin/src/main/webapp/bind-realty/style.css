@@ -1,0 +1,31 @@
+.popup {
+    width:  122px;
+    height: 97px;
+    background-color: #008CBA;
+    border: 2px solid blue;
+    border-radius: 8px;
+    display: none;
+}
+
+button {
+    width: 100px;
+    height: 30px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.clear {
+    background-color: #f44336;
+}
+
+.save {
+    background-color: #4CAF50;
+    margin-top: 15px
+}

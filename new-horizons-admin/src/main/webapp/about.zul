@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native"
+        >
+
+    <window id="helpWin" title="О компании разработчике" onCancel="helpWin.detach()"
+            border="normal" mode="modal" closable="true" position="center,center"  sizable="true"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.AboutVM')">
+        Открытая база недвижимости "Новые Горизонты" <h:br/>
+        Разработано компанией <a href="http://www.simplex-software.ru/">Симплекс Софтвер</a>
+        <h:br/>
+        <label value="id версии: "/>
+        <label value="@load(vm.version)"/><h:br/>
+        <label value="версия от: "/>
+        <label value="@load(vm.data)"/>
+
+        <hbox align="center" pack="center"  width="100%"> <button label="Закрыть" onClick="helpWin.detach()" /> </hbox>
+    </window>
+</zk>

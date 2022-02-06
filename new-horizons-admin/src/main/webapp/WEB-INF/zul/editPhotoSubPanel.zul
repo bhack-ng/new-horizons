@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.EditPhotoSubPanelVM')">
+        <vbox >
+
+            <listbox model="@load(vm.realtyObject.photos)">
+                <listhead>
+                    <listheader label="Название"/>
+                    <listheader label="Главное" width="5%"/>
+                    <listheader label="План" width="5%"/>
+                    <listheader label="Фасад" width="5%"/>
+                    <listheader label="Рекламируется" width="5%"/>
+                    <listheader label="Превью"/>
+                    <listheader label="Действия"/>
+                </listhead>
+                <template name="model" var="p">
+                    <listitem>
+                        <listcell label="@load(p.name)"/>
+                        <listcell ><label value="@load(p.main?'Да':'')" /></listcell>
+                        <listcell label="@load(p.plan?'Да':'')"/>
+                        <listcell label="@load(p.facad?'Да':'')"/>
+                        <listcell label="@load(p.advertise?'Да':'')"/>
+                        <listcell >
+                            <image src="@load(('photo?id=' += p.id))" width="100px" height="100px" />
+                        </listcell>
+                        <listcell >
+                            <button label="Удалить" onClick="@command('deletePhoto', photo=p)"/>
+                            <button label="Редактировать" onClick="@command('editPhoto', photo=p)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </vbox>
+    </idspace>
+</zk>

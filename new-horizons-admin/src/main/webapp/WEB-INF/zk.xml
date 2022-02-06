@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+
+	<preference>
+		<name>org.zkoss.zk.ui.WebApp.name</name>
+		<value>База недвижимостии "Новые Горизонты"</value>
+	</preference>
+	<library-property>
+		<name>org.zkoss.bind.appConverters</name>
+		<value>jsr310=ru.simplex_software.school_mark.view.Jsr310Converter</value>
+	</library-property>
+    <library-property>
+        <name>org.zkoss.theme.preferred</name>
+        <value>sapphire</value> <!-- or silvertail, atlantic -->
+    </library-property>
+	<library-property>
+		<name>org.zkoss.web.preferred.timeZone</name>
+		<value>GMT+3</value>
+	</library-property>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/zul/sys/error.zul</location>
+    </error-page>
+	<desktop-config>
+		<theme-uri>/style.css</theme-uri>
+	</desktop-config>
+	<session-config>
+		<device-type>ajax</device-type>
+		<timeout-message>Сессия завершилась. Обновите станицу.</timeout-message>
+	</session-config>
+</zk>

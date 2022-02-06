@@ -1,0 +1,1 @@
+ALTER TABLE juridicalclient ADD COLUMN site varchar(255);

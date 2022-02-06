@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <window id="editWin" title="@load(('Редактирование объекта недвижимости № ' += vm.realtyObject.id ))" border="normal"
+            mode="modal" closable="true" maximizable="true" width="90%" onCancel="editWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.EditCommericalVM')">
+
+        <tabbox id="tabbox">
+            <tabs >
+                <tab label="Свойства объекта"/>
+                <tab label="Публикация" disabled="@load(vm.viewMode)"
+                     onSelect="@command('openPublicationPanel')"/>
+                <tab label="Контакты собственника"
+                     onSelect="@command('openContactsOfOwnerPanel')"
+                     disabled="@load(vm.realtyObject.id eq null)"/>
+                <tab label="Другие контакты"/>
+                <tab label="Фото" onSelect="@command('openPhotoPanel')"
+                     disabled="@load(vm.realtyObject.id eq null)"/>
+                <tab label="Коментарии" onSelect="@command('openCommentsPanel')"
+                     disabled="@load(vm.realtyObject.id eq null)"/>
+                <tab label="IP телефония"/>
+                <tab label="Рекомендации"
+                     onSelect="@command('openRecommendationsPanel')"
+                     disabled="@load(vm.realtyObject.id eq null)"/>
+            </tabs>
+            <tabpanels>
+                <tabpanel id="mainPanel">
+                    <include realtyObject="@load(vm.realtyObject)"
+                             src="@load('/WEB-INF/zul/realtyObjectMainProperties.zul')"/>
+                    <panel title="Основные параметры" border="none">
+                        <panelchildren>
+                    <listbox>
+                        <listitem>
+                            <listcell label="До метро"/>
+                            <listcell>
+                                <radiogroup>
+                                    <radio label="пешком"
+                                           disabled="@load(vm.viewMode)"
+                                           checked="@bind(vm.realtyObject.metroLocation.wtimeSelected)"/>
+                                    <radio label="транспортом"
+                                           disabled="@load(vm.viewMode)"
+                                           checked="@bind(!vm.realtyObject.metroLocation.wtimeSelected)"/>
+                                </radiogroup>
+                            </listcell>
+                            <listcell label="Время, минут"/>
+                            <listcell>
+                                <intbox disabled="@load(vm.viewMode)"
+                                        value="@bind(vm.realtyObject.metroLocation.anyTime)"/>
+                            </listcell>
+
+                        </listitem>
+                        <listitem>
+                            <listcell label=" Название дома"/>
+                            <listcell>
+                                <textbox
+                                        value="@bind(vm.realtyObject.building.name_bc)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Станция метро"/>
+                            <listcell>
+                                <combobox model="@load(vm.metroStations)"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@load(vm.realtyObject.metroLocation.metroStation)
+                                            @save(vm.realtyObject.metroLocation.metroStation, before='save')">
+                                    <template name="model" var="metro">
+                                        <comboitem label="@load(metro.stationName)"  />
+                                    </template>
+                                </combobox>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Тип помещения" />
+                            <listcell>
+                                <combobox model="@load(vm.commerceTypes)"
+                                          constraint="no empty"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@load(vm.realtyObject.type)
+                                            @save(vm.realtyObject.type, before='save')">
+                                    <template name="model" var="type">
+                                        <comboitem label="@load(type)
+                                            @converter(vm.enumFromCommerceConverter, enumClass='CommerceType')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+                            <listcell label="Тип договора" />
+                            <listcell>
+                                <combobox model="@load(vm.contractTypes)"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@bind(vm.realtyObject.contractType)">
+                                    <template name="model" var="cType">
+                                        <comboitem label="@load(cType)
+                                            @converter(vm.enumFromCommerceConverter, enumClass='ContractType')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+                        </listitem>
+                            <!--
+                            <listcell label="Тип дома"/>
+                            <listcell>
+                                <combobox model="@load(vm.buildingTypes)" selectedItem="@bind(vm.commerce.building.buildingType)">
+                                    <template name="model" var="buildingType">
+                                        <comboitem label="@load(buildingType) @converter(vm.enumFromModelConverter, enumClass='BuildingType') "/>
+                                    </template>
+                                </combobox>
+                            </listcell>-->
+                    </listbox>
+                    </panelchildren>
+                    </panel>
+                    <panel title="Площадь объекта">
+                        <panelchildren>
+                            <listbox>
+                                <listitem>
+                                    <listcell label="Общая площадь" />
+                                    <listcell>
+                                        <doublebox
+                                                value="@bind(vm.realtyObject.area.total)"
+                                                disabled="@load(vm.viewMode)"
+                                                onChange="@command('priceCalculator')"/>
+                                    </listcell>
+                                    <listcell label="Площадь по комнатам"/>
+                                    <listcell>
+                                        <textbox
+                                                value="@bind(vm.realtyObject.area.rooms)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                    <listcell label="Минимальная площадь"/>
+                                    <listcell>
+                                        <doublebox
+                                                value="@bind(vm.realtyObject.area.min)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                </listitem>
+                            </listbox>
+                        </panelchildren>
+                    </panel>
+                    <panel title="Комиссии">
+                        <panelchildren>
+                            <listbox>
+                                <listitem>
+                                    <listcell label="Наша комиссия" tooltiptext="agencyCommission"/>
+                                    <listcell>
+                                        <doublebox
+                                                value="@bind(vm.realtyObject.commission.agencyCommission)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                    <listcell label="Комиссия агента"
+                                              tooltiptext="salesCommission?"/>
+                                    <listcell>
+                                        <doublebox
+                                                value="@bind(vm.realtyObject.commission.salesCommission)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                    <listcell label="Комиссия клиента"
+                                              tooltiptext="buyerCommission?"/>
+                                    <listcell>
+                                        <doublebox
+                                                value="@bind(vm.realtyObject.commission.buyerCommission)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                </listitem>
+                            </listbox>
+                        </panelchildren>
+                    </panel>
+                    <panel title="Остальные параметры">
+                        <panelchildren>
+                            <listbox>
+                                <listitem>
+                                    <listcell label="Цена" />
+                                    <listcell>
+                                        <intbox value="@bind(vm.realtyObject.price.value)"
+                                                disabled="@load(vm.viewMode)"
+                                                onChange="@command('priceCalculator')"/>
+                                        <combobox width="80px"
+                                                  model="@load(vm.currencyList)"
+                                                  constraint="no empty"
+                                                  disabled="@load(vm.viewMode)"
+                                                  selectedItem="@bind(vm.realtyObject.price.currency)">
+                                            <template name="model" var="cur">
+                                                <comboitem label="@load(cur.name())"/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                    <listcell
+                                            visible="@load('COMMERCE_LEASE'.equals(vm.realtyObject.realtyObjectType.name()))">
+                                        <a label="Период аренды" onClick="@command('openCalculateWindow')"
+                                           disabled="@load(vm.countPrice)"/>
+                                    </listcell>
+                                    <listcell
+                                            visible="@load('COMMERCE_LEASE'.equals(vm.realtyObject.realtyObjectType.name()))">
+                                        <combobox width="100%"
+                                                  model="@load(vm.periodList)"
+                                                  disabled="@load(vm.viewMode)"
+                                                  selectedItem="@bind(vm.realtyObject.price.period)">
+                                            <template name="model" var="period">
+                                                <comboitem label="@load(period)
+                                                    @converter(vm.enumFromPriceConverter, enumClass='Period') "/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                </listitem>
+                                <listitem>
+                                    <listcell label="Тип здания"/>
+                                    <listcell>
+                                        <combobox model="@load(vm.liveTypes)"
+                                                  disabled="@load(vm.viewMode)"
+                                                  selectedItem="@bind(vm.realtyObject.building.liveType)">
+                                            <template name="model" var="liveType">
+                                                <comboitem label="@load(liveType)
+                                                    @converter(vm.enumFromModelConverter, enumClass='BuildingLiveType') "/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                    <listcell label="Вход в здание"/>
+                                    <listcell>
+                                        <combobox model="@load(vm.entrances)"
+                                                  disabled="@load(vm.viewMode)"
+                                                  selectedItem="@bind(vm.realtyObject.building.enter)">
+                                            <template name="model" var="enter">
+                                                <comboitem label="@load(enter)
+                                                    @converter(vm.enumFromModelConverter, enumClass='BuildingEntrance')"/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                </listitem>
+                                <listitem>
+                                    <listcell label="Кол-во комнат"/>
+                                    <listcell>
+                                        <intbox value="@bind(vm.realtyObject.area.roomsCount)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                    <listcell label="Этаж/этажность" />
+                                    <listcell>
+                                        <intbox value="@load(vm.realtyObject.building.floor)
+                                                    @save(vm.realtyObject.building.floor, before='save')"
+                                                constraint="no empty"
+                                                disabled="@load(vm.viewMode)"
+                                                tooltiptext="этаж (если подвал, то «-2», полуподвал - «-1»)"/>
+                                        <intbox value="@load(vm.realtyObject.building.floorTotal)
+                                                    @save(vm.realtyObject.building.floorTotal, before='save')"
+                                                constraint="no empty"
+                                                disabled="@load(vm.viewMode)"
+                                                tooltiptext="количество этажей в здании"/>
+                                    </listcell>
+                                </listitem>
+                                <listitem>
+                                    <listcell label="Широта"/>
+                                    <listcell>
+                                        <textbox
+                                                value="@bind(vm.realtyObject.address.geoCoordinates.latitude)"
+                                                disabled="@load(vm.viewMode)"/>
+                                    </listcell>
+                                    <listcell label="Долгота"/>
+                                    <listcell>
+                                        <textbox
+                                                value="@bind(vm.realtyObject.address.geoCoordinates.longitude)"
+                                                disabled="@load(vm.viewMode)"/>
+                                        <button label="Найти координаты"
+                                                disabled="@load(vm.viewMode)"
+                                                onClick="@command('selectGeoCoordinate')"/>
+                                    </listcell>
+                                </listitem>
+                            </listbox>
+                        </panelchildren>
+                    </panel>
+                    <panel title="Опции">
+                    <panelchildren>
+                    <listbox>
+                        <listitem>
+                            <listcell label="Количество телефонных линий"/>
+                            <listcell>
+                                <intbox value="@bind(vm.realtyObject.options.phones)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Возможность проведения дополнительных телефонных линий"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.add_phones)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Наличие мебели"/>
+                            <listcell>
+                                <combobox model="@load(vm.mebelExistanceValues)"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@bind(vm.realtyObject.options.mebel)">
+                                    <template name="model" var="mebel">
+                                        <comboitem label="@load(mebel)
+                                            @converter(vm.enumFromCommerceConverter, enumClass='CommerceOptions$MebelExistance')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+                            <listcell label="Состояние"/>
+                            <listcell>
+                                <combobox model="@load(vm.optionsStatuses)"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@bind(vm.realtyObject.building.status_b)">
+                                    <template name="model" var="status">
+                                        <comboitem label="@load(status)
+                                            @converter(vm.enumFromModelConverter, enumClass='BuildingStatus')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Класс строения"/>
+                            <listcell>
+                                <combobox model="@load(vm.buildingClass)"
+                                          disabled="@load(vm.viewMode)"
+                                          selectedItem="@bind(vm.realtyObject.building.buildingClass)">
+                                    <template name="model" var="buildingClass">
+                                        <comboitem label="@load(buildingClass)
+                                            @converter(vm.enumFromModelConverter, enumClass='BuildingClass')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+
+
+                            <listcell label="Отопление"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.heat)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Канализация"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.canal)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Газ"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.gas)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Водоснабжение"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.water)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Лифт"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.lift)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Парковка"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.parking)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Охрана"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.security)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Интернет"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.internet)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                            <listcell label="Электричество"/>
+                            <listcell>
+                                <checkbox
+                                        checked="@bind(vm.realtyObject.options.elect)"
+                                        disabled="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+
+                    </listbox>
+                    </panelchildren>
+                    </panel>
+                    <panel title="Текст объявления">
+                        <panelchildren>
+                            <textbox value="@bind(vm.realtyObject.note)"
+                                     disabled="@load(vm.viewMode)"
+                                     rows="4" width="100%" maxlength="2048"/>
+                        </panelchildren>
+                    </panel>
+                </tabpanel>
+                <tabpanel id="publicationPanel">
+                    <!--insert publicationPanel here-->
+                </tabpanel>
+                <tabpanel id="contactsOfOwnerPanel">
+                    <!--insert contactsOfOwnerPanel here-->
+                </tabpanel>
+                <tabpanel>
+                    <!--insert otherContactsPanel here-->
+                </tabpanel>
+                <tabpanel id="photoPanelTabPanel">
+                    <!--insert photoPanel here-->
+                </tabpanel>
+                <tabpanel id="commentsPanel">
+                    <!--insert commentsPanel here-->
+                </tabpanel>
+                <tabpanel id="audioFilesPanel">
+                    <!--insert audioFilesPanel here-->
+                </tabpanel>
+                <tabpanel id="recomendationsPanel">
+                    <!--insert recomendationsPanel here-->
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+
+        <button sclass="saveButton" label="Сохранить" onClick="@command('save')"
+                visible="@bind(vm.realtyObject.externalObectExt eq null)"/>
+        <space width="10px"/>
+        <button sclass="cancelButton"
+                label="@load(vm.viewMode ? 'Закрыть' : 'Отменить')"
+                onClick="@command('cancel')"/>
+    </window>
+ </zk>

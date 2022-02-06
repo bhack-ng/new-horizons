@@ -1,0 +1,49 @@
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native"
+        >
+
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ShowPhotoSubPanelVM')">
+    <h:style>
+        .myImage{
+        max-width:100%;
+        min-width:100%;
+        }
+    </h:style>
+    <vbox  >
+        <listbox model="@load(vm.model)">
+            <listhead>
+                <listheader label="" height="500px"/>
+                <listheader  height="500px" />
+            </listhead>
+            <template name="model" var="p" >
+                <listitem  >
+                    <listcell context="ctx1" onRightClick="@command('selected', selectedPhoto = p[0])" >
+                        <image  sclass="myImage"  src  = "@load(('photo?id='+= p[0].id))"
+                               onDoubleClick="@command('editPhotoOnClick', photo=p[0])"   />
+                    </listcell>
+                    <listcell context="ctx2"  onRightClick="@command('selected',selectedPhoto=p[1])"  >
+                        <image sclass="myImage"  src = "@load(('photo?id=' += p[1].id))" if="${p[1]!=null}"
+                               onDoubleClick="@command('editPhotoOnClick', photo=p[1])"   />
+
+                    </listcell>
+
+                </listitem>
+
+            </template>
+        </listbox>
+        <menupopup id="ctx1">
+            <menuitem label="Редактировать" onClick="@command('editPhoto')"/>
+            <menuitem label="Удалить" onClick="@command('deleteSelectedPhoto')"/>
+        </menupopup>
+        <menupopup id="ctx2">
+            <menuitem label="Редактировать" onClick="@command('editPhoto')"/>
+            <menuitem label="Удалить" onClick="@command('deleteSelectedPhoto')"/>
+        </menupopup>
+    </vbox>
+
+    </idspace>
+
+</zk>

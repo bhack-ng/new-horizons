@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+    <window id="editPhotoWin" title="@load(('Редактирование фото для объекта недвижимости №' += vm.photo.realtyObject.id ))" border="normal"
+            mode="modal" closable="true" maximizable="true"  onCancel="editWin.detach()" width="80%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.EditPhotoVM')">
+        <listbox>
+            <listitem>
+                <listcell >
+                    <image src="@load(('photo?id=' += vm.photo.id))" width="300px" height="300px"/>
+                </listcell>
+                <listcell>
+                    <button id="btnUpload" upload="true,maxsize=-1"
+                            mold="trendy"
+                            onUpload="@command('upload')"
+                            label="Загрузить фото" />
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Название"/>
+                <listcell>
+                    <textbox value="@bind(vm.photo.name)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Главное фото"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.photo.main)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="План"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.photo.plan)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Фасад"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.photo.facad)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Рекламируется"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.photo.advertise)"/>
+                </listcell>
+            </listitem>
+
+        </listbox>
+        <hbox>
+            <button sclass="saveButton" label="Сохранить" onClick="@command('save')"/>
+            <space width="10px"/>
+            <button sclass="cancelButton" label="Отмена" onClick="@command('cancel')"/>
+        </hbox>
+</window>
+</zk>

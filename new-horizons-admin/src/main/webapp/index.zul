@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:h="http://www.zkoss.org/2005/zk/native"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <include src="/menu.zul"/>
+    <window width="100%" height="100%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.MainWindowVM')">
+
+        <borderlayout>
+
+            <west title="Панель фильтрации" size="20em" vflex="min"
+                  collapsible="true" autoscroll="true">
+                <vbox>
+                <listbox>
+                    <listhead/>
+                    <listitem>
+                        <listcell label="Номер лота"/>
+                        <listcell>
+                            <intbox value="@bind(vm.filter.realtyId)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem visible="@load(vm.logginedUserAdmin)">
+                        <listcell label="Пользователь" />
+                        <listcell>
+                            <combobox width="100%" model="@load(vm.agentList)"
+                                      selectedItem="@bind(vm.filter.agentToFilter)">
+                                <template name="model" var="agent">
+                                    <comboitem label="@load(agent.fio)"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Статус"/>
+                        <listcell>
+                            <combobox width="100%"
+                                      model="@load(vm.objectStatuses)"
+                                      selectedItem="@bind(vm.filter.objectStatus)">
+                                <template name="model" var="status">
+                                    <comboitem label="@load(status.name)"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Метро"/>
+                        <listcell>
+                            <combobox width="90%"
+                                      model="@load(vm.metroStations)"
+                                      selectedItem="@bind(vm.filter.metroStation)">
+                                <template name="model" var="metro">
+                                    <comboitem label="@load(metro.stationName)"/>
+                                </template>
+                            </combobox>
+
+                        </listcell>
+                    </listitem>
+                    <!--<listitem>-->
+                        <!--<listcell label="Улица"/>-->
+                        <!--<listcell>-->
+                            <!--<combobox autodrop="true" buttonVisible="false" width="100%"-->
+                                      <!--model="@load(vm.allStreets)" selectedItem="@bind(vm.filter.street)"  onChanging="@command('streetComboTyped')" >-->
+                                <!--<template name="model" var="street">-->
+                                    <!--<comboitem label="@load(street.streetName)"/>-->
+                                <!--</template>-->
+                            <!--</combobox>-->
+                        <!--</listcell>-->
+                    <!--</listitem>-->
+                    <listitem>
+                        <listcell>Объекты других агентств</listcell>
+                        <listcell>
+                            <checkbox checked="@bind(vm.filter.external)"/>
+                            <combobox model="@load(vm.externalAgencyList)"
+                                      selectedItem="@bind(vm.filter.externalAgency)"
+                                      width="100%" visible="@load(vm.filter.external)">
+                                <template name="model" var="eA">
+                                    <comboitem label="@load(eA.name)"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    </listbox>
+
+                    <include src="@load('/address.zul')" />
+                    <listbox>
+                        <listhead/>
+                    <listitem>
+                        <listcell label="№ дома"/>
+                        <listcell>
+                            <textbox width="100%" value="@bind(vm.filter.buildingNumber)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Тип дома"/>
+                        <listcell>
+                            <combobox model="@load(vm.buildingTypes)"
+                                      selectedItem="@bind(vm.filter.buildingType)"
+                                      width="100%">
+                                <template name="model" var="bt">
+                                    <comboitem label="@load(bt)
+                                        @converter(vm.enumFromModelConverter, enumClass='BuildingType')"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Этаж"/>
+                        <listcell>
+                            <intbox width="100%" value="@bind(vm.filter.floor)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Цена (мин)"/>
+                        <listcell>
+                            <intbox width="100%" value="@bind(vm.filter.priceMin)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Цена (макс)"/>
+                        <listcell>
+                            <intbox width="100%" value="@bind(vm.filter.priceMax)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Валюта"/>
+                        <listcell>
+                            <combobox model="@load(vm.currencies)"
+                                      selectedItem="@bind(vm.filter.currency)"
+                                      width="100%">
+                                <template name="model" var="cur">
+                                    <comboitem label="@load(cur.name())"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Цена за" visible="@load('COMMERCE_LEASE'.equals(vm.filter.realtyObjectType.name()))"/>
+                        <listcell                 visible="@load('COMMERCE_LEASE'.equals(vm.filter.realtyObjectType.name()))">
+                            <combobox model="@load(vm.periods)"
+                                      selectedItem="@bind(vm.filter.period)"
+                                      width="100%">
+                                <template name="model" var="period">
+                                    <comboitem label="@load(period)
+                                        @converter(vm.enumFromPriceConverter, enumClass='Period')"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Кол-во комнат"/>
+                        <listcell>
+                            <intbox width="100%" value="@bind(vm.filter.roomCount)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Телефон"/>
+                        <listcell>
+                            <textbox width="100%" value="@bind(vm.filter.phone)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Позвонить сегодня"/>
+                        <listcell>
+                            <checkbox checked="@bind(vm.filter.callToday)"/>
+                        </listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="Сортировка"/>
+                        <listcell>
+                            <combobox model="@load(vm.sortFields)"
+                                      selectedItem="@bind(vm.filter.sortField)"
+                                      width="100%">
+                                <template name="model" var="sf">
+                                    <comboitem label="@load(sf)
+                                        @converter(vm.enumFromModelConverter, enumClass='SortByField')"/>
+                                </template>
+                            </combobox>
+                        </listcell>
+                    </listitem>
+                </listbox>
+                    <hbox>
+                        <button label="Применить фильтр" onClick="@command('doFilter')"/>
+                        <button label="Печать" visible="false"/>
+                        <button label="Очистить" onClick="@command('doClear')"/>
+                    </hbox>
+                </vbox>
+            </west>
+            <center border="none" autoscroll="true" >
+                <vbox>
+                    <hbox>
+                        <image src="@load(vm.iconURL)" width="30px" height="30px"/>
+                        <label value="Список объектов:"/>
+                        <label value="@bind(vm.filter.realtyObjectType)
+                            @converter(vm.enumFromModelConverter, enumClass='RealtyObjectType') "/>
+                        <button label="Новый объект"
+                                onClick="@command('createRealtyObject')"
+                                autodisable="self" disabled="@load(vm.external)"
+                                iconSclass="z-icon-plus"/>
+                        <image src="img/question.png" width="15px"
+                               tooltiptext="нельзя создавать новые объекты ,внешних агенств"
+                               visible="@load(vm.external)"/>
+                    </hbox>
+                    <listbox model="@load(vm.realtyObjectListModel)"
+                             mold="paging" pageSize="10">
+                    <listhead sizable="true" >
+                        <listheader label="№" hflex="3" />
+                        <listheader label="id" hflex="3"/>
+                        <listheader label="Владелец" hflex="6"/>
+                        <listheader label="Дата звонка/контакты" hflex="11"/>
+                        <listheader label="Месторасположение" hflex="11"/>
+                        <listheader label="Цена" hflex="10"/>
+                        <listheader label="Параметры объекта" hflex="10"/>
+                        <listheader label="Фото" hflex="10"/>
+                        <listheader label="Дествия" hflex="13"/>
+
+                    </listhead>
+                    <template name="model" var="on" status="st">
+                        <listitem
+                                onDoubleClick="@command('editRealtyObject', on=on)"
+                                style="@load(('background-color:'+= on.objectStatus.color))"
+                                height="80px">
+                            <listcell label="@load(st.index+1)"/>
+                            <listcell label="@load(on.id)"/>
+                            <listcell >
+                                    <label value="@load(on.externalObectExt.feed.externalAgency.name)"/>
+                                    <label value="@load(on.agent.fio)"/>
+                            </listcell>
+                            <listcell >
+                                <label value="@load(on.nextCall)"/>
+                                <h:br/>
+                                <label value="Контакты собственника:"
+                                       visible="@load(not empty on.contactsOfOwners )"/>
+                                <h:br/>
+                                <div children="@load(on.contactsOfOwners)">
+                                    <template name="children">
+                                        <label value="@load(each.name)"/>
+                                        <label value="@load(each.phone)"/>
+                                        <h:br/>
+                                    </template>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(vm.locationRenderer.toLocolizedString(on))"/>
+                            <listcell >
+                                <label value="@load(vm.priceRenderer.getRenderer(on.price).toLocalizedString(on.price))"/>
+                                <label visible="@load(not empty on.comments)"
+                                       value="Посл. комментарий:"/>
+                                <label visible="@load(not empty on.comments)"
+                                       value="@load(vm.getLastCommentText(on))"/>
+                            </listcell>
+                            <listcell label="@load(vm.flatDescriptionRenderer.getRenderer(on).toLocolizedString(on))"/>
+                            <listcell >
+                                <image src="@load(vm.setPreviewPhotoUrl(on))"
+                                       width="100%"
+                                       visible="@load(vm.photoVisible)"/>
+                            </listcell>
+                            <listcell >
+                                <button label="Редактировать" autodisable="self"
+                                        onClick="@command('editRealtyObject', on=on)"
+                                        visible="@bind(on.externalObectExt eq null)"/>
+                                <button label="Просмотр" autodisable="self"
+                                        onClick="@command('editRealtyObject', on=on)"
+                                        visible="@bind(on.externalObectExt ne null)"/>
+                                <button label="Показать комментарии"
+                                        autodisable="self"
+                                        onClick="@command('editRealtyObject', on=on, tab=5)"/>
+                                <button label="pdf" autodisable="self"/>
+                                <button label="Привязать к плану"
+                                        autodisable="self"
+                                        onClick="@command('bindRealtyObject', realtyObject=on)"
+                                        visible="@load(vm.isCommerce(on) &amp;&amp; !vm.external)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+                </vbox>
+            </center>
+        </borderlayout>
+    </window>
+ </zk>

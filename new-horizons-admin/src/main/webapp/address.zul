@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk  xmlns="http://www.zkoss.org/2005/zul"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+     xmlns:h="http://www.zkoss.org/2005/zk/native"
+     xmlns:k="http://www.w3.org/1999/xhtml">
+
+
+            <listbox viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.AddressVM')">
+
+                <listitem>
+                    <listcell>Регион</listcell>
+                    <listcell>
+                        <combobox model="@load(vm.levels[0])" selectedItem="@bind(vm.selections[0])"
+                                  onSelect="@command('selectionChanged', zLevel=0)"  width="100%">
+                            <template name="model" var="fo">
+                                <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <!--<listitem>-->
+                    <!--<listcell>Автономный округ</listcell>-->
+                    <!--<listcell>-->
+                        <!--<combobox model="@load(vm.levels[1])" selectedItem="@bind(vm.selections[1])"-->
+                                  <!--onSelect="@command('selectionChanged', zLevel=1)" >-->
+                            <!--<template name="model" var="fo">-->
+                                <!--<comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>-->
+                            <!--</template>-->
+                        <!--</combobox>-->
+                    <!--</listcell>-->
+                <!--</listitem>-->
+                <listitem>
+                    <listcell>Район</listcell>
+                    <listcell>
+                        <combobox model="@load(vm.levels[2])" selectedItem="@bind(vm.selections[2])"
+                                  onSelect="@command('selectionChanged', zLevel=2)" width="100%">
+                            <template name="model" var="fo">
+                                <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell>Город</listcell>
+                    <listcell>
+                        <combobox model="@load(vm.levels[3])" selectedItem="@bind(vm.selections[3])"
+                                  onSelect="@command('selectionChanged', zLevel=3)" width="100%">
+                            <template name="model" var="fo">
+                                <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <!--<listitem>-->
+                    <!--<listcell>Внутригородская территория</listcell>-->
+                    <!--<listcell>-->
+                        <!--<combobox model="@load(vm.levels[4])" selectedItem="@bind(vm.selections[4])"-->
+                                  <!--onSelect="@command('selectionChanged', zLevel=4)" >-->
+                            <!--<template name="model" var="fo">-->
+                                <!--<comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>-->
+                            <!--</template>-->
+                        <!--</combobox>-->
+                    <!--</listcell>-->
+                <!--</listitem>-->
+                <listitem>
+                    <listcell>Населённый пункт/микрорайон</listcell>
+                    <listcell>
+                        <combobox model="@load(vm.levels[5])" selectedItem="@bind(vm.selections[5])"
+                                  onSelect="@command('selectionChanged', zLevel=5)" width="100%">
+                            <template name="model" var="fo">
+                                <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                            </template>
+                        </combobox>
+                    </listcell>
+                </listitem>
+                <listitem>
+                    <listcell>Улица</listcell>
+                    <listcell>
+                        <combobox model="@load(vm.levels[6])" selectedItem="@bind(vm.selections[6])"
+                                  onSelect="@command('selectionChanged', zLevel=6)" width="100%">
+                        <template name="model" var="fo">
+                            <comboitem label="@load((fo.OFFNAME += ' '+= fo.SHORTNAME))"/>
+                        </template>
+                    </combobox></listcell>
+                </listitem>
+
+            </listbox>
+
+</zk>

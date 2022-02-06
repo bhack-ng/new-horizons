@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ContactsOfOwnerPanelVM')">
+        <vbox>
+            <hbox>
+                <textbox placeholder="Имя собственника" value="@bind(vm.contactsOfOwner.name)"/>
+                <textbox placeholder="Телефон" value="@bind(vm.contactsOfOwner.phone)"/>
+                <button label="Добавить контакт" onClick="@command('addContacts')"/>
+            </hbox>
+
+            <listbox model="@load(vm.realtyObject.contactsOfOwners)">
+                <listhead style="text-align: center;">
+                    <listheader hflex="80"
+                                label="Контактная информация (50 символов)"/>
+                    <listheader hflex="10" label="Телефон"/>
+                    <listheader hflex="10" label="Удаление номера"/>
+                </listhead>
+                <template name="model" var="cont">
+                    <listitem>
+                        <listcell label="@load(cont.name)"/>
+                        <listcell style="text-align: center;"
+                                  label="@load(cont.phone)"/>
+                        <listcell style="text-align: center;">
+                            <button label="Удалить" onClick="@command('delete', contact=cont)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </vbox>
+    </idspace>
+</zk>

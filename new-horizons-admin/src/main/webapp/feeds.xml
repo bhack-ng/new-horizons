@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeds>
+    <feed>
+        <feedType>CIAN_LIVE_SALE</feedType>
+        <url>external/liveSale.xml</url>
+        <description>Жилая недвижимость,продажа</description>
+    </feed>
+    <feed>
+        <feedType>CIAN_LIVE_RENT</feedType>
+        <url>external/liveLease.xml</url>
+        <description>Жилая недвижимость, аренда</description>
+    </feed>
+    <feed>
+        <feedType>CIAN_COMMERICAL</feedType>
+        <url>external/commerical.xml</url>
+        <description>Коммерческая недвижимость</description>
+    </feed>
+</feeds>

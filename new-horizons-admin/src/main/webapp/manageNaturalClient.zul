@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <include src="/menu.zul"/>
+    <window title="Управление физическим лицом" border="normal"
+            onCancel="@command('close')" validationMessages="@id('vmsgs')"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ManageNaturalClientVM')">
+
+        <div form="@id('fx') @load(vm.client) @save(vm.client, before='saveClient')
+                    @validator(vm.validator)">
+            <hbox>
+                <vbox hflex="17">
+                    <listbox>
+                        <listhead>
+                            <listheader hflex="11"/>
+                            <listheader hflex="15"/>
+                        </listhead>
+                        <listitem>
+                            <listcell label="ФИО"/>
+                            <listcell>
+                                <textbox hflex="1" value="@bind(fx.name)"
+                                         readonly="@load(vm.viewMode)"/>
+                                <label style="color: red;"
+                                       value="@load(vmsgs['name'])"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Email"/>
+                            <listcell>
+                                <textbox hflex="1" value="@bind(fx.email)"
+                                         readonly="@load(vm.viewMode)"/>
+                                <label style="color: red;"
+                                       value="@load(vmsgs['email'])"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Телефон"/>
+                            <listcell>
+                                <textbox hflex="1" value="@bind(fx.phone)"
+                                         readonly="@load(vm.viewMode)"/>
+                                <label style="color: red;"
+                                       value="@load(vmsgs['phone'])"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Мобильный телефон"/>
+                            <listcell>
+                                <textbox hflex="1" value="@bind(fx.mobilePhone)"
+                                         readonly="@load(vm.viewMode)"/>
+                                <label style="color: red;"
+                                       value="@load(vmsgs['mobilePhone'])"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Комментарий"/>
+                            <listcell>
+                                <textbox hflex="1" rows="3" multiline="true"
+                                         value="@bind(fx.comment)"
+                                         readonly="@load(vm.viewMode)"
+                                         maxlength="1024"/>
+                                <label style="color: red;"
+                                       value="@load(vmsgs['comment'])"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Тип рекламной кампании"/>
+                            <listcell>
+                                <combobox model="@load(vm.advertisingCampaignTypes)"
+                                          readonly="true" disabled="@load(vm.viewMode)"
+                                          selectedItem="@bind(fx.advertisingCampaignType)">
+                                    <template name="model" var="item">
+                                        <comboitem
+                                                label="@load(item) @converter(vm.converter, enumClass='AdvertisingCampaignType')"/>
+                                    </template>
+                                </combobox>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Номер рекламной кампании"/>
+                            <listcell>
+                                <textbox value="@bind(fx.advertisingCampaignNumber)" readonly="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Номер объявления"/>
+                            <listcell>
+                                <textbox value="@bind(fx.advertisementNumber)" readonly="@load(vm.viewMode)"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Поисковый запрос"/>
+                            <listcell>
+                                <textbox hflex="1" rows="3" multiline="true"
+                                         value="@bind(fx.searchQuery)"
+                                         readonly="@load(vm.viewMode)"
+                                         maxlength="1024"/>
+                            </listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="Поисковая фраза"/>
+                            <listcell>
+                                <textbox hflex="1" rows="3" multiline="true"
+                                         value="@bind(fx.searchPhrase)"
+                                         readonly="@load(vm.viewMode)"
+                                         maxlength="1024"/>
+                            </listcell>
+                        </listitem>
+                    </listbox>
+                    <vbox hflex="1">
+                        <hbox style="margin-left: 5px;" hflex="1">
+                            <label value="ID объекта"/>
+                            <intbox style="margin-left: 30px;"
+                                    value="@bind(vm.realtyObjectId)"/>
+                            <button label="Добавить объект"
+                                    onClick="@command('addRealtyObject')"
+                                    disabled="@load(fx.id eq null)"/>
+                        </hbox>
+                        <cell hflex="1" style="text-align: center;">
+                            <label style="color: red;"
+                                   value="@load(vm.realtyObjectError)"/>
+                        </cell>
+                        <hbox hflex="1">
+                            <button label="Загрузить файл"
+                                    upload="true, maxsize=10000"
+                                    onUpload="@command('uploadFile')"
+                                    disabled="@load(fx.id eq null)"/>
+                        </hbox>
+                    </vbox>
+                    <hbox style="margin-left: 10px;">
+                        <button label="Сохранить"
+                                disabled="@load(vm.viewMode)"
+                                onClick="@command('saveClient')"/>
+                        <button label="Добавить задачу"
+                                disabled="@load(fx.id eq null)"
+                                onClick="@command('addTask')"/>
+                        <button label="Отмена" onClick="@command('close')"/>
+                    </hbox>
+                </vbox>
+                <tabbox hflex="83" vflex="1">
+                    <tabs>
+                        <tab label="Задачи"
+                             selected="@load(vm.isTabSelected(0))"/>
+                        <tab label="Объекты недвижимости"
+                             selected="@load(vm.isTabSelected(1))"/>
+                        <tab label="Файлы"
+                             selected="@load(vm.isTabSelected(2))"/>
+                    </tabs>
+                    <tabpanels>
+                        <tabpanel>
+                            <listbox model="@bind(vm.tasks)">
+                                <listhead style="text-align: center;">
+                                    <listheader hflex="15"
+                                                label="Дата и время"/>
+                                    <listheader hflex="10" label="От"/>
+                                    <listheader hflex="10" label="Для"/>
+                                    <listheader hflex="10" label="Клиент"/>
+                                    <listheader hflex="39" label="Описание"/>
+                                    <listheader hflex="8"/>
+                                    <listheader hflex="8"/>
+                                </listhead>
+                                <template name="model" var="item">
+                                    <listitem>
+                                        <listcell style="text-align: center;"
+                                                  label="@load(item.executionDatetime)"/>
+                                        <listcell style="text-align: center;"
+                                                  label="@bind(item.creator.fio)"/>
+                                        <listcell style="text-align: center;"
+                                                  label="@bind(item.executor.fio)"/>
+                                        <listcell style="text-align: center;"
+                                                  label="@load(item.client.name)"/>
+                                        <listcell
+                                                label="@bind(item.description)"/>
+                                        <listcell style="text-align: center;">
+                                            <button label="Изменить"
+                                                    onClick="@command('editTask', task=item)"/>
+                                        </listcell>
+                                        <listcell style="text-align: center;">
+                                            <button label="Удалить"
+                                                    onClick="@command('deleteTask', taskId=item.id)"/>
+                                        </listcell>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </tabpanel>
+                        <tabpanel>
+                            <listbox model="@load(vm.realtyObjects)">
+                                <listhead style="text-align: center;">
+                                    <listheader label="Id"/>
+                                    <listheader label="Адрес"/>
+                                    <listheader label="Статус"/>
+                                    <listheader label="Тип недвижимости"/>
+                                    <listheader label="Тип объявления"/>
+                                </listhead>
+                                <template name="model" var="item">
+                                    <listitem>
+                                        <listcell>
+                                            <label value="@load(item.id)"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(item.address.house_str eq null ?
+                                                'Адрес не указан.' : item.address.house_str)"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(item.objectStatus.name)"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(vm.getRealtyObjectType(item.realtyObjectType))"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(vm.getOfferType(item.realtyObjectType))"/>
+                                        </listcell>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </tabpanel>
+                        <tabpanel>
+                            <listbox model="@load(vm.files)">
+                                <listhead style="text-align: center;">
+                                    <listheader label="Id"/>
+                                    <listheader label="Тип содержимого"/>
+                                    <listheader label="Размер"/>
+                                </listhead>
+                                <template name="model" var="item">
+                                    <listitem>
+                                        <listcell>
+                                            <label value="@load(item.id)"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(item.contentType)"/>
+                                        </listcell>
+                                        <listcell>
+                                            <label value="@load(''.concat(item.length).concat(' байт'))"/>
+                                        </listcell>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </hbox>
+        </div>
+
+    </window>
+</zk>

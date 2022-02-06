@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+>
+
+    <include src="/menu.zul"/>
+    <window id="usersWin" title="Пользователи"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.AgentListVM')">
+        <hbox>
+        <button label="Создать" onClick="@command('create')"/>
+        <checkbox label="показывать блокированных" checked="@bind(vm.showBlocked)" onCheck="@command('refresh')" />
+        </hbox>
+        <listbox model="@load(vm.agents)">
+            <listhead>
+                <listheader label="ФИО"/>
+                <listheader label="Логин"/>
+                <listheader label="Почта"/>
+                <listheader label="Роль"/>
+                <listheader label="Действия"/>
+            </listhead>
+            <template name="model" var="agent">
+                <listitem>
+                    <listcell label="@load(agent.fio)"/>
+                    <listcell label="@load(agent.login)"/>
+                    <listcell label="@load(agent.email)"/>
+                    <listcell label="@load(agent.role.name())" />
+                    <listcell>
+						<button label="Редактировать" onClick="@command('edit', agent=agent)"/>
+						<button label="Удалить" onClick="@command('delete', agent=agent)"/>
+                    </listcell>    
+                </listitem>
+            </template>
+        </listbox>
+        
+    </window>
+
+</zk>

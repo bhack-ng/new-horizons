@@ -1,0 +1,44 @@
+.new-horizons-popup {
+    width: 320px;
+    height: 125px;
+    border: 3px solid #3B99F7;
+    border-radius: 5px;
+    text-align: center;
+    padding: 3px;
+    display: none;
+    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 41%,#53cbf1 76%,#05abe0 100%);
+}
+
+.canvases {
+    margin-top: 150px;
+    margin-left: 80px;
+}
+
+.realty-info {
+    float: right;
+    margin: 3px;
+}
+
+.realty-number {
+    margin-top: 5px;
+    height: 30px;
+}
+
+.realty-area {
+    height: 30px;
+}
+
+.realty-image {
+    width: 180px;
+    height: 100px;
+}
+
+.realty-offer-text {
+    float: left;
+}
+
+.combo {
+    margin-top: 30px;
+}
+
+

@@ -1,0 +1,9 @@
+deb http://httpredir.debian.org/debian jessie  non-free
+deb-src http://httpredir.debian.org/debian jessie  non-free
+
+deb http://httpredir.debian.org/debian jessie-updates non-free
+deb-src http://httpredir.debian.org/debian jessie-updates non-free
+
+deb http://security.debian.org/ jessie/updates  non-free
+deb-src http://security.debian.org/ jessie/updates non-free
+

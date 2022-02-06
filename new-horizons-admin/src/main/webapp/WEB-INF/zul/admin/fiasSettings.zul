@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+        >
+    <window id="editFiasSettings" title="Настроки фиас" border="normal"
+            mode="modal" closable="true" maximizable="true"  onCancel="editFiasSettings.detach()" width="70%"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.FiasSettingsVM')">
+
+        <listbox>
+            <listhead>
+                <listheader width="25%"/>
+                <listheader width="45%"/>
+                <listheader width="30"/>
+            </listhead>
+
+            <listitem>
+                <listcell></listcell>
+                <listcell>
+                    <label value="Внимание! Загрузка может занять несколько часов" style="color:red"/>
+                </listcell>
+            </listitem>
+
+            <listitem>
+                <listcell>
+                   <label value="URL справочника ФИАС" />
+                </listcell>
+                <listcell>
+                    <textbox value="@bind(vm.fiasURL)" width="95%"/>
+                </listcell>
+                <listcell label="Рекомендуется оставить значение по умолчанию"/>
+
+            </listitem>
+
+            <listitem>
+                <listcell label="Временная дирректрория:"/>
+                <listcell >
+                    <textbox value="@bind(vm.tmpDir)" width="95%"/>
+                </listcell>
+                <listcell label="Рекомендуется оставить значение по умолчанию"/>
+            </listitem>
+
+            <listitem>
+                <listcell label="Загрузить справочник"/>
+                <listcell>
+                    <button label="Загрузить " onClick="@command('downloadFiasCatalog')"/>
+                </listcell>
+                <listcell/>
+            </listitem>
+
+            <listitem>
+                <listcell >
+                    <label value="Загрузить не сжатый"/>
+                    <image src="img/question.png" width="15px"  tooltiptext="Не сжатый справочник может содержать устаревшие данные, но не нужен rar для распаковки. Не рекомендуется." />
+                </listcell>
+
+                <listcell>
+                    <button label="Загрузить не сжатый" onClick="@command('fillFullUnpacked')"/>
+                </listcell>
+                <listcell/>
+            </listitem>
+
+
+        </listbox>
+        <space width="2px"/>
+        <button sclass="cancelButton" label="отменить " onClick="editFiasSettings.detach()"/>
+    </window>
+</zk>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="geoWin" title="Выбор координат" border="normal" mode="modal" sizable="true" closable="true"
+            onCancel="geoWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.OsmVM')" >
+        <hbox>
+            <listbox width="300px" model="@load(vm.coord)" selectedItem="@bind(vm.selectedCoord)">
+                <listhead>
+                    <listheader label="Полный адрес"/>
+                    <listheader label="Широта"/>
+                    <listheader label="Долгота"/>
+                </listhead>
+                <template name="model" var="c">
+                    <listitem>
+                        <listcell label="@load(c.getKey())"/>
+                        <listcell label="@load(c.getValue().latitude)"/>
+                        <listcell label="@load(c.getValue().longitude)"/>
+                    </listitem>
+                </template>
+            </listbox>
+            <splitter/>
+            <openlayers id="map" width="390px"  height="390px" />
+        </hbox>
+        <hbox>
+            <button label="Выбрать" onClick="@command('save')"/>
+            <button label="Отмена" onClick="geoWin.detach()"/>
+        </hbox>
+    </window>
+
+</zk>

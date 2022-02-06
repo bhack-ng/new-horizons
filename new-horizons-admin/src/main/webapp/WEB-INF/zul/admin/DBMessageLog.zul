@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="DBMessageLogWin" title="Последние сообщения" border="normal"
+            mode="modal" closable="true" maximizable="true" width="60%" onCancel="DBMessageLogWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.DBMessageLogVM')">
+     <!--   <menubar >
+            <menu label="количство сообщений" >
+                <menupopup >
+                    <menuitem label="5"  onClick='@command(vm.setAmountLogMessage(5))'/>
+                    <menuitem label="10" onClick="@command(vm.setAmountLogMessage(10))"/>
+                    <menuitem label="15" onClick="@command(vm.setAmountLogMessage(15))"/>
+                    <menuitem label="20" onClick="@command(vm.setAmountLogMessage(20))"/>
+                </menupopup>
+            </menu>
+        </menubar>
+     -->
+        <listbox id="listBox" height="300px" model="@bind(vm.logMessage)">
+            <listhead>
+                <listheader label="приоритет" width="15%"/>
+                <listheader label="время создния" width="20%"/>
+                <listheader label="сообщение" />
+            </listhead>
+            <template name="model">
+                <listitem>
+                    <listcell label="@load(each.priority)"></listcell>
+                    <listcell label="@load(each.creationDate)"></listcell>
+                    <listcell label="@load(each.message)" ></listcell>
+                </listitem>
+            </template>
+        </listbox>
+
+        <hbox>
+            <button sclass="refreshButton" label="обновить" onClick="@command('update')" />
+            <button sclass="cancelButton" label="Закрыть" onClick="DBMessageLogWin.detach()"/>
+        </hbox>
+    </window>
+</zk>

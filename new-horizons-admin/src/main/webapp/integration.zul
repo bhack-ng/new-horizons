@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native">
+
+    <window id="integrationWin" title="Интеграция с сайтом"
+            border="normal" mode="modal" closable="true"
+            position="center,center"
+            width="50%" height="100%" sizable="false"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.IntegrationVM')">
+
+        <style>
+            .green {
+            color: green;
+            }
+
+            .tab {
+            margin-left: 1em;
+            }
+        </style>
+
+        <h:h3>Есть 2 варианта установки просмотра планов:</h:h3>
+        <h:ol>
+            <h:li>Одиночная картинка с выбором плана.</h:li>
+            <h:li>Несколько картинок на одной странице.</h:li>
+            <h:li>Загрузка JSONP своим кодом.</h:li>
+        </h:ol>
+
+        <h:h3>Как установить одиночный просмотр планов:</h:h3>
+        <h:ol>
+            <h:li>
+                В HTML файл добавить JS файл с id = "<span sclass="green">
+                clientJS</span>"
+                <h:br></h:br>
+                и src = "
+                <span sclass="green"><label style="font-size: 13px;"
+                                            value="@load(vm.path)"/>
+                    /show-offices/new-horizons-schema.js
+                </span>
+                "
+            </h:li>
+            <h:li>В HTML файл добавить элемент <span sclass="green">canvas
+            </span> с классом "<span sclass="green">canvas</span>".
+            </h:li>
+            <h:li>
+                <span>В HTML файл добавить следующий код:</span>
+                <h:br></h:br>
+                <span sclass="green">&lt;div class="popup" style="position:
+                    fixed;"&gt;
+                </span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-number"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-image" alt="No
+                    Image"&gt;
+                </span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-area"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-status"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green">&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span>Классы нужны для работы JS.</span>
+            </h:li>
+        </h:ol>
+
+        <h:h3>Как установить множественный просмотр планов:</h:h3>
+        <h:ol>
+            <h:li>
+                В HTML файл добавить JS файл с id = "<span sclass="green">
+                clientJS</span>"
+                <h:br></h:br>
+                и src = "
+                <span sclass="green"><label style="font-size: 13px;"
+                                            value="@load(vm.path)"/>
+                    /multi-show-offices/new-horizons-schema.js
+                </span>
+                "
+            </h:li>
+            <h:li>
+                В HTML файл добавить элементы <span sclass="green">canvas</span> с
+                классом "<span sclass="green">floor</span>"
+                <h:br></h:br>
+                и аттрибутом <span sclass="green">data-floorId</span> со
+                значением равным Id изображения плана.
+            </h:li>
+            <h:li>
+                <span>В HTML файл добавить следующий код:</span>
+                <h:br></h:br>
+                <span sclass="green">&lt;div class="popup" style="position:
+                    fixed;"&gt;
+                </span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-number"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-image" alt="No
+                    Image"&gt;
+                </span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-area"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green tab">&lt;div class="realty-status"&gt;&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span sclass="green">&lt;/div&gt;</span>
+                <h:br></h:br>
+                <span>Классы нужны для работы JS.</span>
+            </h:li>
+        </h:ol>
+
+    </window>
+</zk>

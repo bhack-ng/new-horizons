@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="feedMessageLogWin" title="Последние сообщения" border="normal"
+            mode="modal" closable="true" maximizable="true" width="60%" onCancel="feedMessageLogWin.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.admin.FeedMessageLogVM')">
+
+        <listbox id="listBox" height="300px" model="@bind(vm.messageList)" mold="paging"  pageSize="10" >
+            <listhead>
+                <listheader label="Сообщения об ошибках" />
+            </listhead>
+            <template name="model">
+                <listitem >
+                    <listcell label="@load(each)"></listcell>
+                </listitem>
+            </template>
+        </listbox>
+
+        <hbox>
+            <button sclass="cancelButton" label="Закрыть" onClick="feedMessageLogWin.detach()"/>
+        </hbox>
+    </window>
+</zk>

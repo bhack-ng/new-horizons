@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.PublicationPanelVM')">
+
+        <listbox>
+            <listhead>
+                <listheader/>
+                <listheader/>
+                <listheader/>
+                <listheader/>
+            </listhead>
+            <listitem>
+                <listcell label="Публиковать на сайт (ЦИАН)"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.realtyObject.publishCian)"/>
+                </listcell>
+                <listcell label="Публиковать на внешние сайты"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.realtyObject.publishExternal)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Выгружать на сайт">
+                    <image src="img/question.png" width="15px"
+                           tooltiptext="Интеграция с сайтом не включена"/>
+                </listcell>
+                <listcell>
+                    <checkbox checked="@bind(vm.realtyObject.publishSite)"/>
+                </listcell>
+                <listcell label="Премиум объявление циан"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.realtyObject.premiumInCian)"/>
+                </listcell>
+            </listitem>
+            <listitem>
+                <listcell label="Публиковать в Яндекс.Недвижимость"/>
+                <listcell>
+                    <checkbox
+                            checked="@bind(vm.realtyObject.publishYandexRealty)"/>
+                </listcell>
+                <listcell label="Публиковать на Avito"/>
+                <listcell>
+                    <checkbox checked="@bind(vm.realtyObject.publishAvito)"/>
+                </listcell>
+            </listitem>
+        </listbox>
+
+    </idspace>
+</zk>

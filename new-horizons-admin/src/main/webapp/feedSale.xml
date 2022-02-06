@@ -1,0 +1,19 @@
+<flats_for_sale>
+    <offer>
+        <id>12345</id>
+        <address admin_area ="1" locality="Москва" street="Ленинградский проспект" house_str="55" />
+        <metro id="5" wtime="5"/>
+        <rooms_num>2</rooms_num>
+        <price currency="USD">380000</price>
+        <floor total="10" type="3">4</floor>
+        <note>
+            <![CDATA[Тестовое объявление, После свежего евроремонта, кухонный гарнитур - встроенный, вся бытовая техника,
+     гарнитурная мебель - спальня, гостиная.]]>
+        </note>
+        <area rooms="30 20 30" living="80" kitchen="12" total="120"></area>
+        <options object_type="1" sale_type="F" phone="yes" lift_p="2" lift_g="1" balсon="10" lodgia="12" su_s="0" su_r="1" windows="1" ipoteka = "1"></options>
+        <phone>1234567;1234568</phone>
+        <photo>http://www.sip-house.ru/images/header.jpg</photo>
+        <promotions> <promotion>top</promotion> </promotions>
+    </offer>
+</flats_for_sale>

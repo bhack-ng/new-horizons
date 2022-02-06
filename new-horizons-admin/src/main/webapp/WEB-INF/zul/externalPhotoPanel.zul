@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+    <idspace
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.ExternalPhotoPanelVM')">
+
+    <listbox model="@load(vm.realtyObject.externalObectExt.externalPhoto)">
+        <listhead>
+            <listheader label="Фотографии с внешних сайтов"/>
+        </listhead>
+
+           <template name="model" >
+               <listitem>
+                   <listcell>
+                            <space width="20%"/>
+                            <image src="@load(each)"  width="60%" />
+                   </listcell></listitem>
+
+           </template>
+
+    </listbox>
+    </idspace>
+
+</zk>

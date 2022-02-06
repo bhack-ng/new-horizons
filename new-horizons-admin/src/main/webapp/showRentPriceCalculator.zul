@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native">
+
+    <window id="winCntPrice" title="Сумма аренды" width="300px"
+            border="normal" sizable="false" closable="true"
+            mode="modal"
+            onCancel="winCntPrice.detach()"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.RentPriceCalculatorVM')">
+        <vbox>
+            <hbox>
+                <label value="@load(vm.monthPrice)"/>в месяц,
+            </hbox>
+            <hbox>
+                <label value="@load(vm.m2YearPrice)"/>
+                <h:div>за м<h:sup>2</h:sup> в год.
+                </h:div>
+            </hbox>
+            <h:br/>
+        </vbox>
+        <hbox align="center" pack="center" width="100%">
+            <button label="Закрыть" onClick="winCntPrice.detach()"/>
+        </hbox>
+    </window>
+</zk>

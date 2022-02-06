@@ -1,0 +1,22 @@
+<flats_rent>
+    <offer>
+        <id>12345</id>
+        <address admin_area="1" locality="Москва" street="Ленинградский проспект" house_str="55"/>
+        <metro id="5" wtime="5"/>
+        <rooms_num>2</rooms_num>
+        <price for_day="0" prepay="2" deposit="1" currency="USD">3000</price>
+        <floor total="10" type="3">4</floor>
+        <note>
+            <![CDATA[
+Новый дом, после свежего евроремонта, кухонный гарнитур - встроенный, вся бытовая техника, гарнитурная мебель - спальня, гостиная.
+]]>
+        </note>
+        <area rooms="25 15 20 20" living="80" kitchen="12" total="120"/>
+        <options balcon="no" lodgia="6" su_r="2" lift_g="3" lift_p="3" phone="yes" mebel_kitchen="yes" mebel="yes" balkon="yes" wm="yes" tv="yes" rfgr="yes" pets="yes" kids="yes" bath="yes"/>
+        <phone>1234567; 1234568</phone>
+        <com agent="50" client="100"/>
+        <publish cian="yes" rentlist="yes"/>
+        <photo>http://www.website.ru/images/image1.jpg</photo>
+        <photo>http://www.website.ru/images/image2.jpg</photo>
+    </offer>
+</flats_rent>

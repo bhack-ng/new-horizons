@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd"
+    xmlns:h="http://www.zkoss.org/2005/zk/native">
+
+    <window id="helpWin" title="Помощь"
+            border="normal" mode="modal" closable="true" position="center,center" width="90%"
+            height="90%" sizable="true"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.HelpWindowVM')">
+
+        <h:h3>Что делать, если объект недвижимости не экспортируется в циан</h:h3>
+        <h:ol>
+            <h:li>Проверить что статус объекта - "рекламируется"</h:li>
+            <h:li>Проверить что у объекта стоит галочка  - "Публиковать на сайт (ЦИАН)"</h:li>
+            <h:li>Проверить что есть фото объекта у которых стоит галочка - рекламируется</h:li>
+            <h:li>
+                Открыть фид и проверить что объект с таким id есть в фиде. Если нет, то это ошибка.
+                <h:ul>
+                    <h:li>Жилая продажа:
+                        <a href="@load(vm.listURL[0])" target="_blank">
+                            <label value="@load(vm.listURL[0])"/>
+                        </a>
+                    </h:li>
+                    <h:li>Жилая аренда:
+                        <a href="@load(vm.listURL[1])" target="_blank">
+                            <label value="@load(vm.listURL[1])"/>
+                        </a>
+                    </h:li>
+                    <h:li>Коммерческая:
+                        <a href="@load(vm.listURL[2])" target="_blank">
+                            <label value="@load(vm.listURL[2])"/>
+                        </a>
+                    </h:li>
+                </h:ul>
+            </h:li>
+            <h:li>Удостовериться что у циана было достаточно времени чтобы импортировать фид.</h:li>
+            <h:li>
+                Проверить <a onClick="@command('cianReport')">лог импорта циана</a>.
+                В логе импорта циана (раздел "Обработанные объявления") пишутся причины, по которым импорт объекта недвижимости не произошёл.
+            </h:li>
+        </h:ol>
+        <h:h3>Что делать, если произошла ошибка</h:h3>
+        <h:ol>
+            <h:li>Сделать <a href="https://yandex.ru/support/common/troubleshooting/screenshot.xml" target="_blank" tooltiptext="Как сделать скриншот">скриншот</a></h:li>
+            <h:li>
+                Записать какие шаги делались, с каким объектом, под каким пользователем (и возможно другие важные параметры)
+            </h:li>
+            <h:li>
+                Записать время, когда произошла ошибка.
+            </h:li>
+
+            <h:li>
+                Попытаться воспроизвести повторно. Если воспроизводится -  указать что воспроизводится.
+                Это значительно ускорит выявление ошибки.
+            </h:li>
+            <h:li>Наисать письмо на <a href="mailto:info@simplex-software.ru?subject=Ошибка">info@simplex-software.ru</a> с темой
+                "Ошибка".</h:li>
+        </h:ol>
+        <h:h3>Страница просмотра планов:</h:h3>
+        <h:ul>
+            <a href="@load(vm.listURL[3])" target="_blank">
+                <label value="@load(vm.listURL[3])"/>
+            </a>
+        </h:ul>
+
+    </window>
+</zk>

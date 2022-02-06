@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+                           http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="ru.simplex_software.arbat_baza"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <context:annotation-config/>
+
+    <!-- REST -->
+    <jaxrs:server id="restService" address="/">
+        <jaxrs:serviceBeans>
+            <bean class="ru.simplex_software.arbat_baza.rest.RestService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="ru.simplex_software.arbat_baza.rest.AuthFilter"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <import resource="securityContext.xml"/>
+    <import resource="daoContext.xml"/>
+
+    <bean class="ru.simplex_software.arbat_baza.DBAppender" id="dbAppender"/>
+    <bean class="ru.simplex_software.arbat_baza.init.DirectionRoadParser" id="directionRoadParser"/>
+
+    <import resource="dataSourceContext.xml"/>
+
+    <!-- Flyway configuration -->
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate" >
+        <property name="baselineOnMigrate" value="true" />
+        <property name="locations" value="classpath:/migrations" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:app.properties"/>
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+          depends-on="flyway"    >
+
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>ru.simplex_software.arbat_baza.model</value>
+                <value>ru.simplex_software.zkutils.entity</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.validator.apply_to_ddl">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop  key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop  key="hibernate.cache.use_query_cache">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+
+    </bean>
+    <bean name="transactionFilter" class="ru.simplex_software.zkutils.TransactionFilter"/>
+
+
+    <bean class="ru.simplex_software.arbat_baza.init.DataloaderInit"/>
+    <bean class="ru.simplex_software.arbat_baza.init.Dataloader"/>
+
+
+    <bean name="authService" class="ru.simplex_software.arbat_baza.AuthService"/>
+    <bean name="geocodeService" class="ru.simplex_software.arbat_baza.GeocodeService"/>
+    <bean name="deleteOutdatedObjectsService" class="ru.simplex_software.arbat_baza.DeleteOutdatedObjectsService"/>
+    <bean name="deleteExtAgService" class="ru.simplex_software.arbat_baza.DeleteExtAgService"/>
+    <bean name = "photoService" class="ru.simplex_software.arbat_baza.PhotoService"/>
+
+    <!-- Utility классы. -->
+    <bean name="jsonBuilder"
+          class=" ru.simplex_software.ord.utils.JsonBuilder"/>
+    <bean name="xmlBuilder" class=" ru.simplex_software.ord.utils.XmlBuilder"/>
+    <bean name="fiasAddressVectorUtils"
+          class="ru.simplex_software.ord.utils.FiasAddressVectorUtils"/>
+
+    <!-- для добавления в Yandex -->
+    <bean name="yandexRequestHandler"           class="ru.simplex_software.arbat_baza.xml.YandexExportServlet"/>
+    <bean name="yandexLeaseRequestHandler"		class="ru.simplex_software.arbat_baza.xml.YandexLeaseExportServlet" />
+    <bean name="yandexSaleRequestHandler"		class="ru.simplex_software.arbat_baza.xml.YandexSaleExportServlet" />
+    <bean name="yandexLeaseCommerceServlet"     class="ru.simplex_software.arbat_baza.xml.YandexCommerceServlet"/>
+    <bean name="yandexPrivateHouseServlet"      class="ru.simplex_software.arbat_baza.xml.YandexPrivateHouseServlet"/>
+    <bean name="yandexSteadServlet"             class="ru.simplex_software.arbat_baza.xml.YandexSteadServlet"/>
+
+    <!--servlets-->
+    <bean name="photoRequestHandler" class="ru.simplex_software.arbat_baza.PhotoServlet"/>
+    <bean name="agentPhotoRequestHandler" class="ru.simplex_software.arbat_baza.AgentPhotServlet"/>
+    <bean name="dbFileRequestHandler" class="ru.simplex_software.arbat_baza.DBFileServlet"/>
+    <bean name="friendsRequestHandler" class="ru.simplex_software.ord.FriendsServlet"/>
+    <bean name="jsonProducerHandler"
+          class="ru.simplex_software.ord.servlets.JsonDataProviderServlet"/>
+    <bean name="coordsSaverHandler"
+          class="ru.simplex_software.ord.servlets.CoordsSaverServlet"/>
+    <bean name="imageDownloadHandler"
+          class="ru.simplex_software.ord.servlets.ImageDownloadServlet"/>
+    <bean name="showOfficesHandler"
+          class="ru.simplex_software.ord.servlets.ShowOfficesServlet"/>
+    <bean name="newCianXmlCommercialExportHandler"
+          class="ru.simplex_software.ord.servlets.xml_export.CianCommercialLeaseOfficeServlet"/>
+
+    <bean name="commerceRequestHandler"  class="ru.simplex_software.arbat_baza.xml.CommercialExportServlet"/>
+    <bean name="liveLeaseRequestHandler" class="ru.simplex_software.arbat_baza.xml.LiveLeaseExportServlet"/>
+    <bean name="liveSaleRequestHandler"  class="ru.simplex_software.arbat_baza.xml.LiveSaleExportServlet"/>
+    <bean name="avitoRequestHandler"      class="ru.simplex_software.arbat_baza.xml.AvitoExportServlet" />
+
+    <bean class="ru.simplex_software.arbat_baza.init.FiasDataloader" name="fiasDataloader"/>
+
+    <import resource="fetchContext.xml"/>
+</beans>

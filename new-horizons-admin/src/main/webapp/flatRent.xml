@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<?xml-stylesheet type="text/xsl" href="flatRent.xsl"?>
+<flats_rent >
+    <offer>
+        <id>12345</id>
+        <address admin_area ="1" locality="Москва" street="Ленинградский проспект" house_str="55" />
+        <metro id="5" wtime="5"/>
+        <rooms_num>2</rooms_num>
+        <price for_day="0" prepay="2" deposit="0" currency="USD">3000</price>
+        <floor total="10">4</floor>
+        <note>
+            <![CDATA[Новый дом, после свежего евроремонта, кухонный гарнитур - встроенный, вся бытовая техника,
+     гарнитурная мебель - спальня, гостиная.]]>
+        </note>
+        <area rooms="25 15 20 20" living="80" kitchen="12" total="120"></area>
+        <options phone="yes" mebel_kitchen="yes" mebel="yes" balcon="yes" wm="yes" tv="yes" rfgr="yes" pets="yes" kids="no"></options>
+        <phone>1234567; 1234568</phone>
+        <com agent="50" client="100"></com>
+        <publish cian="yes" rentlist="yes"></publish>
+        <photo>https://static.pexels.com/photos/1562/italian-landscape-mountains-nature-large.jpg</photo>
+        <photo>https://static.pexels.com/photos/141774/pexels-photo-141774-large.jpeg</photo>
+        <photo>https://static.pexels.com/photos/141774/pexels-photo-141774-large.jpeg</photo>
+        <photo>https://static.pexels.com/photos/141774/pexels-photo-141774-large.jpeg</photo>
+        <photo>https://static.pexels.com/photos/141774/pexels-photo-141774-large.jpeg</photo>
+        <promotions> <promotion>premium</promotion> </promotions>
+    </offer>
+</flats_rent>

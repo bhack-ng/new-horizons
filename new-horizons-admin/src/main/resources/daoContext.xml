@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dao="http://autodao.sourceforge.net/schemas/autodao-0.12"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://autodao.sourceforge.net/schemas/autodao-0.12 http://autodao.sourceforge.net/schemas/autodao-0.12.xsd">
+
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.AgentDAO" id="agentDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.MetroStationDAO" id="metroStationDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.ObjectStatusDAO" id="objectStatusDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.StreetDAO" id="streetDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.commerce.CommerceDAO" id="commerceDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.RealtyFilterDAO" id="realtyFilterDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.PhotoDAO" id="photoDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.ContactsOfOwnerDAO" id="contactsOfOwnerDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.CommentDAO" id="commentDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.RecommendationDAO" id="recommendationDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.AgencyDAO" id="agencyDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.RealtyObjectDAO" id="realtyObjectDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.LiveLeaseRealtyDAO" id="liveLeaseRealtyDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.LiveSaleRealtyDAO" id="liveSaleRealtyDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.PhotoDataDAO" id="photoDataDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.NameOfBuildingDAO" id="nameOfBuildingDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.AddressDAO" id="addressDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.odor.ExternalAgencyDAO" id="externalAgencyDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.odor.FeedDAO" id="feedDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.fias.FiasSocrDAO" id="fiasSocrDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.fias.FiasObjectDAO" id="fiasObjectDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.fias.FiasAddressVectorDAO" id="fiasAddressVectorDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.CianAdminAreaDAO" id="cianAdminAreaDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.LogMessageDAO" id="logMessageDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.DbFileDao" id="dbFileDao" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.FloorSchemeDAO" id="floorSchemeDAO" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.DirectionRoadDao" id="directionRoadDao" />
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.SteadSaleDao" id="steadSaleDao"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.SteadRentDao" id="steadRentDao"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.PrivateHouseRentDao" id="privateHouseRentDao"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.PrivateHouseSaleDao" id="privateHouseSaleDao"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.ClientDAO"
+                   id="clientDAO"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.ClientTaskDAO"
+                   id="clientTaskDAO"/>
+    <dao:hibernate interface="ru.simplex_software.arbat_baza.dao.JobPositionDAO"
+                   id="jobPositionDAO"/>
+
+    <bean class="ru.simplex_software.arbat_baza.dao.fias.FiasObjectSave"/>
+    <bean class="ru.simplex_software.arbat_baza.dao.RealtyObjectByFilterDAOImpl" id="realtyObjectByFilterDAOImpl" />
+</beans>

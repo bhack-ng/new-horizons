@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.zkoss.org/2005/zul  http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <window title="Генерация офисов" width="200px"
+            border="normal" sizable="false" closable="true"
+            onCancel="@command('close')" mode="modal"
+            validationMessages="@id('vmsgs')"
+            viewModel="@id('vm') @init('ru.simplex_software.arbat_baza.viewmodel.GenerateOfficesVM')">
+
+        <div form="@id('fx') @load(vm.data) @save(vm.data, before='submit')
+                    @validator(vm.validator)">
+            <vbox>
+                <hbox hflex="1">
+                    <label value="ID объекта"/>
+                    <longbox value="@bind(fx.id)" cols="16"/>
+                </hbox>
+                <vbox>
+                    <label style="color: red;" value="@load(vmsgs['id'])"/>
+                    <label style="color: red;"
+                           value="@load(vmsgs['minNumber'])"/>
+                </vbox>
+                <hbox hflex="1">
+                    <label value="От"/>
+                    <spinner constraint="no empty, min 1"
+                             value="@bind(fx.minNumber)" cols="3"/>
+                    <label value="До"/>
+                    <spinner constraint="no empty, min 1"
+                             value="@bind(fx.maxNumber)" cols="3"/>
+                </hbox>
+                <hbox>
+                    <label style="color: red;"
+                           value="@load(vmsgs['maxNumber'])"/>
+                </hbox>
+                <hbox hflex="1">
+                    <button hflex="10" label="Создать"
+                            onClick="@command('submit')"/>
+                    <button hflex="10" label="Отмена"
+                            onClick="@command('close')"/>
+                </hbox>
+            </vbox>
+        </div>
+    </window>
+</zk>
