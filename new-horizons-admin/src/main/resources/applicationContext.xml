@@ -96,6 +96,8 @@
     <bean name="yandexPrivateHouseServlet"      class="ru.simplex_software.arbat_baza.xml.YandexPrivateHouseServlet"/>
     <bean name="yandexSteadServlet"             class="ru.simplex_software.arbat_baza.xml.YandexSteadServlet"/>
 
+    <bean name="ipfsPublisher" class="ru.simplex_software.arbat_baza.xml.IpfsPublisher"/>
+
     <!--servlets-->
     <bean name="photoRequestHandler" class="ru.simplex_software.arbat_baza.PhotoServlet"/>
     <bean name="agentPhotoRequestHandler" class="ru.simplex_software.arbat_baza.AgentPhotServlet"/>
