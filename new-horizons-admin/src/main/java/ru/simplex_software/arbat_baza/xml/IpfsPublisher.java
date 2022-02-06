@@ -20,7 +20,7 @@ public class IpfsPublisher {
     @Resource
     private LiveSaleRealtyDAO liveSaleRealtyDAO;
 
-    void publishAll() throws Exception{
+    public void publishAll() throws Exception{
         List<LiveSaleRealty> liveRealtyList = liveSaleRealtyDAO.findToSiteExport();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
