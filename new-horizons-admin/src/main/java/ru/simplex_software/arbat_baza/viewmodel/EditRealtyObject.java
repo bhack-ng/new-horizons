@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Window;
 import ru.simplex_software.arbat_baza.AuthService;
@@ -35,8 +36,11 @@ import ru.simplex_software.arbat_baza.model.ObjectStatus;
 import ru.simplex_software.arbat_baza.model.RealtyObject;
 import ru.simplex_software.arbat_baza.model.Street;
 import ru.simplex_software.arbat_baza.model.price.Currency;
+import ru.simplex_software.arbat_baza.xml.IpfsPublisher;
 import ru.simplex_software.school_mark.view.Jsr310Converter;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -74,6 +78,9 @@ public class EditRealtyObject {
 
     @WireVariable
     private FiasObjectDAO fiasObjectDAO;
+
+    @WireVariable
+    private IpfsPublisher ipfsPublisher;
 
     private List<MetroStation> metroStations;
     private List<ObjectStatus> statuses;
@@ -146,6 +153,16 @@ public class EditRealtyObject {
         }else {
             realtyObjectDAO.merge(realtyObject);
         }
+        try{
+            ipfsPublisher.publishAll();
+        }catch (Exception ex){
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String sStackTrace = sw.toString();
+            Messagebox.show(sStackTrace, ex.getMessage(),Messagebox.OK, Messagebox.ERROR);
+        }
+
         Events.postEvent("onChangeList", editWin, null);
         editWin.detach();
     }
